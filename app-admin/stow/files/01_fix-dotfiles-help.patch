@@ -1,0 +1,22 @@
+From ca1e5e500fd0a248444996fc5c45dc9f85d569e2 Mon Sep 17 00:00:00 2001
+From: Gutierri Barboza <me@gutierri.me>
+Date: Tue, 13 Apr 2021 22:09:38 -0300
+Subject: [PATCH] add --dotfiles sub usage
+
+---
+ bin/stow.in | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/bin/stow.in b/bin/stow.in
+index 4faa451..84d9af6 100755
+--- a/bin/stow.in
++++ b/bin/stow.in
+@@ -821,6 +821,8 @@ OPTIONS:
+                           if the file is already stowed to another package
+     --adopt               (Use with care!)  Import existing files into stow package
+                           from target.  Please read docs before using.
++    --dotfiles            Enables special handling for dotfiles that are
++                          Stow packages that start with "dot-" and not "."
+     -p, --compat          Use legacy algorithm for unstowing
+ 
+     -n, --no, --simulate  Do not actually make any filesystem changes

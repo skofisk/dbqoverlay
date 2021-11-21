@@ -1,0 +1,22 @@
+From 57d7b76bd3a988a7b840e99b54f9f62bfdf1c5e4 Mon Sep 17 00:00:00 2001
+From: Gutierri Barboza <me@gutierri.me>
+Date: Wed, 14 Apr 2021 22:08:38 -0300
+Subject: [PATCH] add option --simulate on manpage
+
+---
+ bin/stow.in | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/bin/stow.in b/bin/stow.in
+index 84d9af6..76b150c 100755
+--- a/bin/stow.in
++++ b/bin/stow.in
+@@ -135,6 +135,8 @@ C<-D>).
+ 
+ =item --no
+ 
++=item --simulate
++
+ Do not perform any operations that modify the filesystem; merely show
+ what would happen.
+ 
