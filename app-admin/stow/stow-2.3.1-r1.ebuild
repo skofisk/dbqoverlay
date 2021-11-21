@@ -28,9 +28,9 @@ BDEPEND="
 	verify-sig? ( app-crypt/openpgp-keys-adamspiers )
 "
 PATCHES=(
-    "${FILESDIR}/01_fix-dotfiles-help.patch",
-    "${FILESDIR}/02_fix-dotfiles.patch",
-    "${FILESDIR}/03_fix-adopt.patch",
+    "${FILESDIR}/01_fix-dotfiles-help.patch"
+    "${FILESDIR}/02_fix-dotfiles.patch"
+    "${FILESDIR}/03_fix-adopt.patch"
     "${FILESDIR}/04_fix-simulate-help.patch"
 )
 
