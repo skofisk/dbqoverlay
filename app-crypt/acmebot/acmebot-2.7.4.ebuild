@@ -15,7 +15,8 @@ if [[ $PV != 9999 ]]; then
 fi
 
 PATCHES=(
-	"${FILESDIR}/post_as_get.patch"
+	"${FILESDIR}/01-acmev2.patch"
+	"${FILESDIR}/02-alt_chain.patch"
 )
 
 LICENSE="GPL-3"

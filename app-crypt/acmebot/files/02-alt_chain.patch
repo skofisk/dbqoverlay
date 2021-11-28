@@ -1,0 +1,28 @@
+--- /usr/lib/python-exec/python3.9/acmebot	2021-10-23 17:47:32.147043246 +0200
++++ ./acmebot	2021-11-03 00:10:41.155504806 +0100
+@@ -312,7 +312,8 @@
+                 'nsupdate_command': '/usr/bin/nsupdate',
+                 'public_suffix_list_url': 'https://publicsuffix.org/list/public_suffix_list.dat',
+                 'verify': None,
+-                'services': None
++                'services': None,
++                'preferred_chain': None
+             },
+             'directories': {
+                 'pid': '/var/run',
+@@ -2495,9 +2496,14 @@
+                             if (messages.STATUS_INVALID == order.body.status):
+                                 self._error('Unable to issue ', key_type.upper(), ' certificate ', certificate_name, '\n')
+                                 continue
++                        get_alt_chains = self._setting('preferred_chain') is not None
+                         order = self.acme_client.finalize_order(order,
+-                                                                datetime.datetime.now() + datetime.timedelta(seconds=self._setting_int('cert_poll_time')))
++                                                                datetime.datetime.now() + datetime.timedelta(seconds=self._setting_int('cert_poll_time')),
++                                                                fetch_alternative_chains=get_alt_chains)
+                         certificate, chain = self.decode_full_chain(order.fullchain_pem)
++                        if get_alt_chains and order.alternative_fullchains_pem:
++                             self._info('Using alternative chain','\n')
++                             certificate, chain = self.decode_full_chain(order.alternative_fullchains_pem[0])
+                     except Exception as error:
+                         self._error(key_type.upper(), ' certificate issuance failed\n', self._indent(error), '\n')
+                         if (rolled_private_key):
