@@ -3,10 +3,9 @@
 
 EAPI=8
 
-#DISTUTILS_USE_PEP517=setuptools
 PYTHON_COMPAT=( python3_{8..11} )
 
-inherit distutils-r1
+inherit webapp
 
 DESCRIPTION="Virtual Mail Account management for Exim mailservers"
 HOMEPAGE="https://gitlab.com/runout/veximpy"
@@ -39,8 +38,3 @@ RDEPEND="
 	dev-python/python-dotenv[${PYTHON_USEDEP}]
     dev-python/pymysql[${PYTHON_USEDEP}]
 "
-
-python_install_all() {
-	use examples && dodoc -r examples
-	distutils-r1_python_install_all
-}
