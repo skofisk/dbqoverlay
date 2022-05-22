@@ -14,7 +14,7 @@ PHP_EXT_ZENDEXT="no"
 
 PHP_EXT_OPTIONAL_USE=php
 
-USE_PHP="php8-0"
+USE_PHP="php8-1"
 
 # This variable does not belong to any eclass. It is solely used in this ebuild
 BERKDB_SLOTS=( 6.2 6.1 5.3 5.1 4.8 )
