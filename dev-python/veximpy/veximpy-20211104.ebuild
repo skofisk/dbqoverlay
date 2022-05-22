@@ -38,6 +38,7 @@ RDEPEND="
 	dev-python/virtualenv[${PYTHON_USEDEP}]
 	dev-python/python-dotenv[${PYTHON_USEDEP}]
     dev-python/pymysql[${PYTHON_USEDEP}]
+    dev-python/wtforms-components[${PYTHON_USEDEP}]
 "
 
 need_httpd_fastcgi
