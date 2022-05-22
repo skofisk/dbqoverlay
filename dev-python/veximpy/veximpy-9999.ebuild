@@ -5,7 +5,7 @@ EAPI=8
 
 PYTHON_COMPAT=( python3_{8..11} )
 
-inherit python-r1 webapp
+inherit webapp python-r1
 
 DESCRIPTION="Virtual Mail Account management for Exim mailservers"
 HOMEPAGE="https://gitlab.com/runout/veximpy"
@@ -20,9 +20,9 @@ else
 	KEYWORDS="~alpha amd64 ~arm ~arm64 ~hppa ~ia64 ~loong ~mips ~ppc ~ppc64 ~riscv ~s390 ~sparc ~x86"
 fi
 
-USE=""
 LICENSE="GPL3"
 SLOT="0"
+WEBAPP_MANUAL_SLOT="yes"
 
 RDEPEND="
 	www-servers/uwsgi[python]
@@ -39,8 +39,22 @@ RDEPEND="
 	dev-python/python-dotenv[${PYTHON_USEDEP}]
     dev-python/pymysql[${PYTHON_USEDEP}]
 "
-src_configure() { :; }
+
+need_httpd_fastcgi
+
+pkg_setup() {
+    webapp_pkg_setup
+}
+
+#src_configure() { :; }
 src_install() {
     webapp_src_preinst
+
+    local x
+    x="${MY_HOSTROOTDIR}/${PN}"
+    mkdir "${D}/${x}"
+    dodir "${x}"
+    cp -R * "${D}/${x}" || die "Install failed!"
+
     webapp_src_install
 }
