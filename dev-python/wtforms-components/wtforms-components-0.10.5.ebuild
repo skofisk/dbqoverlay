@@ -13,7 +13,7 @@ MY_P="${MY_PN}-${PV}"
 DESCRIPTION="Additional fields, validators and widgets for WTForms."
 HOMEPAGE="https://pypi.org/project/WTForms-Components/ https://github.com/kvesteri/wtforms-components"
 SRC_URI="https://github.com/kvesteri/${PN}/archive/refs/tags/${PV}.tar.gz -> ${MY_P}.tar.gz"
-S="${WORKDIR}/${MY_P}"
+S="${WORKDIR}/${PN}-${PV}"
 
 LICENSE="BSD"
 SLOT="0"
