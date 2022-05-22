@@ -20,6 +20,7 @@ SLOT="0"
 KEYWORDS="amd64 ~riscv x86"
 
 RDEPEND="
+    dev-python/infinity[${PYTHON_USEDEP}]
 "
 
 distutils_enable_sphinx docs \
