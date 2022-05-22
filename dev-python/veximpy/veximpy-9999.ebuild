@@ -15,7 +15,7 @@ if [[ ${PV} == *9999* ]]; then
 	inherit git-r3
 	KEYWORDS="~amd64"
 else
-	EGIT_REPO_URI="https://gitlab.com/runoutat/veximpy.git"
+	EGIT_REPO_URI="https://gitlab.com/runout/veximpy.git"
 	EGIT_COMMIT="a4e40831d8a661a8bc7607c4017a9b86efca75b1"
 	inherit git-r3
 	KEYWORDS="~alpha amd64 ~arm ~arm64 ~hppa ~ia64 ~loong ~mips ~ppc ~ppc64 ~riscv ~s390 ~sparc ~x86"
