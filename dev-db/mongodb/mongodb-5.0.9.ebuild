@@ -58,9 +58,9 @@ PDEPEND="
 	tools? ( >=app-admin/mongo-tools-100 )
 "
 
-#	"${FILESDIR}/${PN}-4.4.1-boost.patch"
-#	"${FILESDIR}/${PN}-4.4.1-gcc11.patch"
 PATCHES=(
+	"${FILESDIR}/${PN}-4.4.1-boost.patch"
+	"${FILESDIR}/${PN}-4.4.1-gcc11.patch"
 	"${FILESDIR}/${PN}-5.0.2-fix-scons.patch"
 	"${FILESDIR}/${PN}-5.0.2-no-compass.patch"
 	"${FILESDIR}/${PN}-5.0.2-skip-no-exceptions.patch"
