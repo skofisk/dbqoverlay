@@ -13,7 +13,7 @@ LICENSE="LGPL-2.1"
 SLOT="0"
 KEYWORDS="~amd64"
 
-RDEPEND="<net-mail/dovecot-2.4[stemmer]
+RDEPEND="<net-mail/dovecot-2.4:0=[stemmer]
 		>dev-libs/xapian-1.4
 		"
 PATCHES=( "${FILESDIR}"/ascii-capital-0.3.diff )
@@ -26,4 +26,10 @@ src_prepare() {
 src_configure() {
 	tc-export CC CXX
 	econf --with-dovecot=/usr/$(get_libdir)/dovecot
+}
+
+src_install() {
+    default
+    insinto /etc/dovecot/conf.d
+    doins "${FILESDIR}"/11-fts-flatcurve.conf
 }
