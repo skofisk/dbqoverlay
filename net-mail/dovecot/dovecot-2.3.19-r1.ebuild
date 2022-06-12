@@ -85,6 +85,7 @@ S="${WORKDIR}/${MY_P}"
 PATCHES=(
 	"${FILESDIR}/${PN}"-autoconf-lua-version-v2.patch
 	"${FILESDIR}/${PN}"-socket-name-too-long.patch
+	"${FILESDIR}/${PN}"-slibtool-overlinking.patch
 )
 
 pkg_setup() {
