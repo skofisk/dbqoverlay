@@ -1,0 +1,113 @@
+diff --git a/.github/actions/dovecot-fts-flatcurve-test/configs/dovecot.conf.issue-27 b/.github/actions/dovecot-fts-flatcurve-test/configs/dovecot.conf.issue-27
+new file mode 100644
+index 0000000..db44a8c
+--- /dev/null
++++ b/.github/actions/dovecot-fts-flatcurve-test/configs/dovecot.conf.issue-27
+@@ -0,0 +1,5 @@
++!include /dovecot/configs/dovecot.conf
++
++plugin {
++  fts_filters_en = snowball english-possessive stopwords
++}
+diff --git a/.github/actions/dovecot-fts-flatcurve-test/fts-flatcurve-test.sh b/.github/actions/dovecot-fts-flatcurve-test/fts-flatcurve-test.sh
+index 953eb99..da0ac46 100755
+--- a/.github/actions/dovecot-fts-flatcurve-test/fts-flatcurve-test.sh
++++ b/.github/actions/dovecot-fts-flatcurve-test/fts-flatcurve-test.sh
+@@ -76,7 +76,7 @@ export IMAPTEST_ISSUE_10_GERMAN=1
+ run_test "Testing GitHub Issue #10 (German; fails)" \
+ 	/dovecot/configs/dovecot.conf.issue-10 \
+ 	/dovecot/imaptest/issue-10/issue-10
+-unset IMAPTEST_NO_SUBSTRING
++unset IMAPTEST_ISSUE_10_GERMAN
+ 
+ run_test "Testing GitHub Issue #11 (DB Rotation/Deletion)" \
+         /dovecot/configs/dovecot.conf.issue-11 \
+@@ -86,6 +86,10 @@ run_test "Testing Xapian query keyword parsing" \
+ 	/dovecot/configs/dovecot.conf.xapian-query-keywords \
+ 	/dovecot/imaptest/xapian-query-keywords
+ 
++run_test "Testing GitHub Issue #27 (BODY phrase search)" \
++	/dovecot/configs/dovecot.conf.issue-27 \
++	/dovecot/imaptest/issue-27/issue-27
++
+ TESTBOX=rotatetest
+ run_test "Testing DB Rotation/Deletion (populating mailbox)" \
+ 	/dovecot/configs/dovecot.conf.issue-11 \
+diff --git a/.github/actions/dovecot-fts-flatcurve-test/imaptest/issue-27/default.mbox b/.github/actions/dovecot-fts-flatcurve-test/imaptest/issue-27/default.mbox
+new file mode 100644
+index 0000000..133debb
+--- /dev/null
++++ b/.github/actions/dovecot-fts-flatcurve-test/imaptest/issue-27/default.mbox
+@@ -0,0 +1,21 @@
++From user@domain  Fri Feb 22 17:06:23 2008
++From: user-from@domain.org
++To: user-to@domain.org
++Subject: Foo
++
++body Hello foo
++
++From user@domain  Fri Feb 22 17:06:24 2008
++From: RealFrom <user-from@domain.org>
++To: RealTo <user-to@domain.org>
++Subject: Bar
++
++body2 Hello jim
++
++From user@domain  Fri Feb 22 17:06:25 2008
++From: RealFrom <user-from@domain.org>
++To: RealTo <user-to@domain.org>
++Subject: Test
++
++body3 Hi jim bar
++
+diff --git a/.github/actions/dovecot-fts-flatcurve-test/imaptest/issue-27/issue-27 b/.github/actions/dovecot-fts-flatcurve-test/imaptest/issue-27/issue-27
+new file mode 100644
+index 0000000..17eb7e7
+--- /dev/null
++++ b/.github/actions/dovecot-fts-flatcurve-test/imaptest/issue-27/issue-27
+@@ -0,0 +1,6 @@
++messages: all
++
++ok search body "Hello Jim"
++* search 2
++ok search subject "Foo"
++* search 1
+diff --git a/src/fts-backend-flatcurve-xapian.cpp b/src/fts-backend-flatcurve-xapian.cpp
+index df4f232..9431ded 100644
+--- a/src/fts-backend-flatcurve-xapian.cpp
++++ b/src/fts-backend-flatcurve-xapian.cpp
+@@ -1106,7 +1106,7 @@ void fts_flatcurve_xapian_close(struct flatcurve_fts_backend *backend)
+ }
+ 
+ static uint32_t
+-fts_flatcurve_xapian_get_last_uid_query(struct flatcurve_fts_backend *backend,
++fts_flatcurve_xapian_get_last_uid_query(struct flatcurve_fts_backend *backend ATTR_UNUSED,
+ 					Xapian::Database *db)
+ {
+ 	Xapian::Enquire enquire(*db);
+@@ -1246,6 +1246,12 @@ fts_flatcurve_xapian_index_header(struct flatcurve_fts_backend_update_context *c
+ 
+ 		temp = s.tempSubString(i++);
+ 		temp.toUTF8String(t);
++		/* Capital ASCII letters at the beginning of a Xapian term are
++		 * treated as a "term prefix". Check for a leading ASCII
++		 * capital, and lowercase if necessary, to ensure the term
++		 * is not confused with a "term prefix". */
++		if (i_isupper(t[0]))
++			t[0] = i_tolower(t[0]);
+ 
+ 		if (ctx->indexed_hdr) {
+ 			x->doc->add_term(
+@@ -1276,6 +1282,12 @@ fts_flatcurve_xapian_index_body(struct flatcurve_fts_backend_update_context *ctx
+ 
+ 		temp = s.tempSubString(i++);
+ 		temp.toUTF8String(t);
++		/* Capital ASCII letters at the beginning of a Xapian term are
++		 * treated as a "term prefix". Check for a leading ASCII
++		 * capital, and lowercase if necessary, to ensure the term
++		 * is not confused with a "term prefix". */
++		if (i_isupper(t[0]))
++			t[0] = i_tolower(t[0]);
+ 
+ 		x->doc->add_term(t);
+ 	} while (fuser->set.substring_search &&
