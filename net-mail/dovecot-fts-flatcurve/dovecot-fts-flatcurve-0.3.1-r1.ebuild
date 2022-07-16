@@ -16,7 +16,7 @@ KEYWORDS="~amd64"
 RDEPEND="<net-mail/dovecot-2.4:0=[stemmer]
 		>dev-libs/xapian-1.4:=
 		"
-PATCHES=( "${FILESDIR}"/ascii-capital-0.3.diff )
+#PATCHES=( "${FILESDIR}"/ascii-capital-0.3.diff )
 
 src_prepare() {
 	default
