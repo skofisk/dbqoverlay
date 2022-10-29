@@ -21,6 +21,7 @@ IUSE="+caps gssapi idn libedit lmdb readline static-libs xml"
 COMMON_DEPEND="
 	dev-libs/libuv:=
 	dev-libs/jemalloc
+	dev-libs/json-c:=
 	dev-libs/openssl:=
 	caps? ( sys-libs/libcap )
 	gssapi? ( virtual/krb5 )
