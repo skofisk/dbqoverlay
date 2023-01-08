@@ -1,7 +1,7 @@
-# Copyright 1999-2020 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=8
 PYTHON_COMPAT=(python3_9 python3_10 python3_11)
 
 inherit distutils-r1
@@ -17,12 +17,8 @@ SLOT="3"
 KEYWORDS="amd64 hppa ~ia64 ~ppc ~sparc x86"
 IUSE="examples"
 
-DEPEND="dev-python/setuptools[${PYTHON_USEDEP}]"
-
 # Tests require network access
 RESTRICT="test"
-
-S="${WORKDIR}/${MY_P}"
 
 python_test() {
 	"${EPYTHON}" -m unittest || die "tests failed with ${EPYTHON}"
