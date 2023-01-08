@@ -1,5 +1,5 @@
 --- /usr/lib/python-exec/python3.9/acmebot	2021-10-23 17:47:32.147043246 +0200
-+++ ./acmebot	2021-11-03 00:10:41.155504806 +0100
++++ ./src/acmebot/acmebot.py	2021-11-03 00:10:41.155504806 +0100
 @@ -312,7 +312,8 @@
                  'nsupdate_command': '/usr/bin/nsupdate',
                  'public_suffix_list_url': 'https://publicsuffix.org/list/public_suffix_list.dat',
