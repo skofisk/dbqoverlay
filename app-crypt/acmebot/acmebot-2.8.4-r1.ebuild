@@ -26,10 +26,28 @@ LICENSE="GPL-3"
 SLOT="0"
 [[ $PV != 9999 ]] && KEYWORDS="amd64 ~x86"
 
+IUSE=""
+REQUIRED_USE="${PYTHON_REQUIRED_USE}"
+CDEPEND="${PYTHON_DEPS}
+        >=dev-python/appdirs-1.4.3[${PYTHON_USEDEP}]
+        >=dev-python/pyparsing-2.2.0[${PYTHON_USEDEP}]
+        >=dev-python/packaging-16.8[${PYTHON_USEDEP}]
+        >=dev-python/pyopenssl-17.5.0[${PYTHON_USEDEP}]
+        >=dev-python/pydns-3.1.0:3[${PYTHON_USEDEP}]
+        >=dev-python/cryptography-2.1.4[${PYTHON_USEDEP}]
+        >=dev-python/asn1crypto-0.24.0[${PYTHON_USEDEP}]
+        >=dev-python/pyyaml-3.1[${PYTHON_USEDEP}]
+        >=app-crypt/acme-2.1.0[${PYTHON_USEDEP}]
+        "
+RDEPEND="${CDEPEND}"
+DEPEND=""
+
 python_install_all() {
-        insinto /etc/logrotate.d
-        doins logrotate.d/acmebot
-        insinto /etc/acmebot
-        doins config/acmebot.example.json
-        doins config/acmebot.example.yaml
+	insinto /etc/logrotate.d
+	doins logrotate.d/acmebot
+	insinto /etc/acmebot
+	doins config/acmebot.example.json
+	doins config/acmebot.example.yaml
+
+	distutils-r1_python_install_all
 }
