@@ -20,6 +20,8 @@ IUSE="examples"
 # Tests require network access
 RESTRICT="test"
 
+S="${WORKDIR}/${MY_P}"
+
 python_test() {
 	"${EPYTHON}" -m unittest || die "tests failed with ${EPYTHON}"
 }
