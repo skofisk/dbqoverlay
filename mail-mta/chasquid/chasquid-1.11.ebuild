@@ -43,7 +43,7 @@ src_install() {
 
 
         insinto /etc/chasquad
-        doins -r eth/chasquad
+        doins -r "${WORKDIR}"/eth/chasquad
 
         diropts -m 0750 -o mail -g mail
         keepdir /var/lib/chasquad
