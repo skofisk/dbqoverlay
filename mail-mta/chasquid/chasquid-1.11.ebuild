@@ -35,8 +35,8 @@ src_install() {
                 dobin mda-lmtp
         fi
 
-        insinto /etc/chasquid
-        doins -r "${S}"/etc/chasquid
+        insinto /etc
+        newins -r "${S}"/etc/chasquid
 
         diropts -m 0750 -o mail -g mail
         keepdir /var/lib/chasquid
