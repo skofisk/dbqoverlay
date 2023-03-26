@@ -11,12 +11,6 @@ HOMEPAGE="https://blitiri.com.ar/p/chasquid/"
 SRC_URI="https://github.com/albertito/chasquid/archive/refs/tags/v${PV}.tar.gz -> ${P}.tar.gz"
 SRC_URI+=" https://files.dbq.no/${P}-deps.tar.xz"
 
-# Source directory; the dir where the sources can be found (automatically
-# unpacked) inside ${WORKDIR}.  The default value for S is ${WORKDIR}/${P}
-# If you don't need to change it, leave the S= line out of the ebuild
-# to keep it tidy.
-#S="${WORKDIR}/${P}"
-
 LICENSE="Apache-2.0"
 SLOT="0"
 KEYWORDS="amd64 x86"
@@ -41,9 +35,8 @@ src_install() {
                 dobin mda-lmtp
         fi
 
-
         insinto /etc/chasquid
-        doins -r "${WORKDIR}"/eth/chasquid
+        doins -r "${S}"/eth/chasquid
 
         diropts -m 0750 -o mail -g mail
         keepdir /var/lib/chasquid
