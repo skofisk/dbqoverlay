@@ -36,7 +36,7 @@ src_install() {
         fi
 
         insinto /etc
-        newins -r "${S}"/etc/chasquid
+        doins -r "${S}"/etc/chasquid
 
         diropts -m 0750 -o mail -g mail
         keepdir /var/lib/chasquid
