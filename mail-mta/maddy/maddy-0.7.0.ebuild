@@ -8,7 +8,9 @@ inherit go-module fcaps systemd
 DESCRIPTION="Composable all-in-one mail server"
 HOMEPAGE="https://maddy.email"
 
-SRC_URI="https://github.com/foxcpp/maddy/archive/f5def9cb04bbd60a5add65d1cd27f4389149174f.tar.gz -> ${P}.tar.gz"
+MY_COMMIT="f5def9cb04bbd60a5add65d1cd27f4389149174f"
+
+SRC_URI="https://github.com/foxcpp/maddy/archive/${MY_COMMIT}.tar.gz -> ${P}.tar.gz"
 SRC_URI+=" https://files.dbq.no/${P}-deps.tar.xz"
 LICENSE="GPL-3"
 SLOT="0"
@@ -20,6 +22,7 @@ RDEPEND="acct-group/${PN}
 DEPEND="${RDEPEND}
 	doc? ( app-text/scdoc )"
 FILECAPS=( "cap_net_bind_service+ep" "usr/bin/${PN}" )
+S=${WORKDIR}/${PN}-${MY_COMMIT}
 
 src_compile() {
 	default
@@ -27,7 +30,7 @@ src_compile() {
 }
 
 src_install() {
-	dobin "build/${PN}" "build/${PN}ctl"
+	dobin "build/${PN}"
 	dodoc -r "docs" "README.md" "HACKING.md"
 	doman "build/man/"*
 	systemd_dounit "build/systemd/"*
