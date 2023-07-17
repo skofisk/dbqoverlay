@@ -29,7 +29,7 @@ RDEPEND="
 	>=dev-python/wtforms-1.0.5[${PYTHON_USEDEP}]
 "
 
-S=${WORKDIR}/${P^}
+S=${WORKDIR}/${PYPI_PN}-${PV}
 
 distutils_enable_sphinx docs dev-python/pallets-sphinx-themes dev-python/sphinxcontrib-log_cabinet dev-python/sphinx-issues
 distutils_enable_tests pytest
