@@ -1,0 +1,140 @@
+From 8aa9d702cae5e2b51fa8dcff65b39568ca73f55b Mon Sep 17 00:00:00 2001
+From: Steinar Seljevold <steinar+github@dbq.no>
+Date: Sat, 7 Oct 2023 14:10:06 +0200
+Subject: [PATCH 1/1] Make compatible with newer acme and pyopenssl. add
+ support for alternative chains
+
+---
+ src/acmebot/acmebot.py | 67 ++++++++++++++++++++----------------------
+ 1 file changed, 32 insertions(+), 35 deletions(-)
+
+diff --git a/src/acmebot/acmebot.py b/src/acmebot/acmebot.py
+index 8cc246a..d2d6bd8 100755
+--- a/src/acmebot/acmebot.py
++++ b/src/acmebot/acmebot.py
+@@ -300,6 +300,7 @@ class AcmeManager:
+                 'max_run_delay': 3600,
+                 'acme_directory_url': 'https://acme-v02.api.letsencrypt.org/directory',
+                 'acme_directory_verify_ssl': True,
++                'preferred_chain': None,
+                 'reload_zone_command': '/etc/bind/reload-zone.sh',
+                 'nsupdate_command': '/usr/bin/nsupdate',
+                 'public_suffix_list_url': 'https://publicsuffix.org/list/public_suffix_list.dat',
+@@ -1657,7 +1658,6 @@ class AcmeManager:
+         if (must_staple):
+             extensions.append(self._ocsp_must_staple_extension())
+         req.add_extensions(extensions)
+-        req.set_version(2)
+         req.set_pubkey(private_key)
+         req.sign(private_key, 'sha256')
+         return OpenSSL.crypto.dump_certificate_request(OpenSSL.crypto.FILETYPE_PEM, req)
+@@ -1897,14 +1897,16 @@ class AcmeManager:
+             try:
+                 network = client.ClientNetwork(self.client_key, account=registration, user_agent=self._user_agent(),
+                                                verify_ssl=self._setting('acme_directory_verify_ssl'))
+-                self.acme_client = client.BackwardsCompatibleClientV2(network, self.client_key, self._setting('acme_directory_url'))
++                directory = messages.Directory.from_json(network.get(self._setting('acme_directory_url')).json())
++                self.acme_client = client.ClientV2(directory, net=network)
+             except Exception as error:
+                 self._fatal("Can't connect to ACME service.\n", error, '\n', code=ErrorCode.ACME)
+         else:
+             self._detail('Registering client\n')
+             try:
+                 network = client.ClientNetwork(self.client_key, user_agent=self._user_agent(), verify_ssl=self._setting('acme_directory_verify_ssl'))
+-                self.acme_client = client.BackwardsCompatibleClientV2(network, self.client_key, self._setting('acme_directory_url'))
++                directory = messages.Directory.from_json(network.get(self._setting('acme_directory_url')).json())
++                self.acme_client = client.ClientV2(directory, net=network)
+             except Exception as error:
+                 self._fatal("Can't connect to ACME service.\n", error, '\n', code=ErrorCode.ACME)
+ 
+@@ -1917,10 +1919,11 @@ class AcmeManager:
+                     self._detail('Terms of service accepted.\n')
+                 else:
+                     self._status('Auto-accepting TOS: ', tos, '\n')
++                return True
+ 
+             try:
+-                reg = messages.NewRegistration.from_data(email=self._account('email'))
+-                registration = self.acme_client.new_account_and_tos(reg, _accept_tos)
++                reg = messages.NewRegistration.from_data(email=self._account('email'), terms_of_service_agreed=_accept_tos(self.acme_client.directory.meta.terms_of_service))
++                registration = self.acme_client.new_account(reg)
+             except Exception as error:
+                 self._fatal("Can't register with ACME service.\n", error, '\n', code=ErrorCode.ACME)
+ 
+@@ -2230,39 +2233,28 @@ class AcmeManager:
+         order.update(authorizations=[authorization_resource for authorization_resource in authorization_resources.values()])
+ 
+     def _create_auth_order(self, domain_names):
+-        if (1 == self.acme_client.acme_version):
++        identifiers = []
++
++        for domain_name in domain_names:
++            identifiers.append(messages.Identifier(typ=messages.IDENTIFIER_FQDN, value=domain_name))
++
++        if (identifiers):
++            order = messages.NewOrder(identifiers=identifiers)
++            try:
++                response = self.acme_client._post(self.acme_client.directory['newOrder'], order)
++            except Exception as error:
++                self._error('Unable to create authorization order\n', self._indent(error), '\n', code=ErrorCode.ACME)
++                return None
++            body = messages.Order.from_json(response.json())
+             authorizations = []
+-            for domain_name in domain_names:
++            for url in body.authorizations:
+                 try:
+-                    authorizations.append(self.acme_client.client.request_domain_challenges(domain_name))
++                    authorizations.append(self.acme_client._authzr_from_response(self.acme_client._post_as_get(url), uri=url))
+                 except Exception as error:
+                     self._error('Unable to request authorization for ', domain_name, '\n', self._indent(error), '\n', code=ErrorCode.ACME)
+                     continue
+-            if (authorizations):
+-                return messages.OrderResource(authorizations=authorizations)
+-        else:
+-            identifiers = []
+-
+-            for domain_name in domain_names:
+-                identifiers.append(messages.Identifier(typ=messages.IDENTIFIER_FQDN, value=domain_name))
+-
+-            if (identifiers):
+-                order = messages.NewOrder(identifiers=identifiers)
+-                try:
+-                    response = self.acme_client.client._post(self.acme_client.client.directory['newOrder'], order)
+-                except Exception as error:
+-                    self._error('Unable to create authorization order\n', self._indent(error), '\n', code=ErrorCode.ACME)
+-                    return None
+-                body = messages.Order.from_json(response.json())
+-                authorizations = []
+-                for url in body.authorizations:
+-                    try:
+-                        authorizations.append(self.acme_client.client._authzr_from_response(self.acme_client.client._post_as_get(url), uri=url))
+-                    except Exception as error:
+-                        self._error('Unable to request authorization for ', domain_name, '\n', self._indent(error), '\n', code=ErrorCode.ACME)
+-                        continue
+-                if (authorizations):
+-                    return messages.OrderResource(body=body, uri=response.headers.get('Location'), authorizations=authorizations)
++        if (authorizations):
++                return messages.OrderResource(body=body, uri=response.headers.get('Location'), authorizations=authorizations)
+         return None
+ 
+     def process_authorizations(self, private_key_names=[]):
+@@ -2555,9 +2547,14 @@ class AcmeManager:
+                             if (messages.STATUS_INVALID == order.body.status):
+                                 self._error('Unable to issue ', key_type.upper(), ' certificate ', certificate_name, '\n', code=ErrorCode.ACME)
+                                 continue
++                        get_alt_chains = self._setting('preferred_chain') is not None
+                         order = self.acme_client.finalize_order(order,
+-                                                                datetime.datetime.now() + datetime.timedelta(seconds=self._setting_int('cert_poll_time')))
+-                        certificate, chain = self.decode_full_chain(order.fullchain_pem)
++                                                                datetime.datetime.now() + datetime.timedelta(seconds=self._setting_int('cert_poll_time')), fetch_alternative_chains=get_alt_chains)
++                        if get_alt_chains and order.alternative_fullchains_pem:
++                            self._info('Using alternative chain','\n')
++                            certificate, chain = self.decode_full_chain(order.alternative_fullchains_pem[0])
++                        else:
++                            certificate, chain = self.decode_full_chain(order.fullchain_pem)
+                     except Exception as error:
+                         self._error(key_type.upper(), ' certificate issuance failed\n', self._indent(error), '\n', code=ErrorCode.ACME)
+                         if (rolled_private_key):
+-- 
+2.41.0
+
