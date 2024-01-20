@@ -25,6 +25,7 @@ RDEPEND="caps? ( sys-libs/libcap )
 	systemd? ( sys-apps/systemd:= )
 	tcpd? ( sys-apps/tcp-wrappers )
 	libev? ( dev-libs/libevent )
+	dev-libs/libbsd
 	>=dev-libs/libconfig-1.5:="
 DEPEND="${RDEPEND}
 	dev-lang/perl"
@@ -54,7 +55,8 @@ src_compile() {
 		USELIBCAP=$(usev caps) \
 		USELIBWRAP=$(usev tcpd) \
 		USELIBEV=$(usev libev) \
-		USESYSTEMD=$(usev systemd)
+		USESYSTEMD=$(usev systemd) \
+		USELIBBSD=1
 }
 
 src_install() {
