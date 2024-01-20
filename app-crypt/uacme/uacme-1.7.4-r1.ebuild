@@ -20,6 +20,7 @@ RDEPEND="
 	!gnutls? ( !mbedtls? ( >=dev-libs/openssl-1.1.1k ) )
 	gnutls? ( >=net-libs/gnutls-3.7.1 )
 	mbedtls? ( >=net-libs/mbedtls-2.26.0 )
+	ualpn? ( dev-libs/libev )
 "
 DEPEND="${RDEPEND}"
 BDEPEND="man? ( >=app-text/asciidoc-9.0.5-r1 )"
