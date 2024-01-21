@@ -8,7 +8,7 @@ HOMEPAGE="https://github.com/ndilieto/uacme"
 SRC_URI="https://github.com/ndilieto/uacme/archive/upstream/${PV}.tar.gz -> ${P}.tar.gz"
 S="${WORKDIR}/uacme-upstream-${PV}"
 
-KEYWORDS="amd64"
+KEYWORDS="amd64 arm64"
 
 SLOT="0"
 LICENSE="GPL-3"

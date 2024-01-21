@@ -23,7 +23,7 @@ PATCHES=(
 
 LICENSE="GPL-3"
 SLOT="0"
-[[ $PV != 9999 ]] && KEYWORDS="amd64 ~x86"
+[[ $PV != 9999 ]] && KEYWORDS="amd64 arm64 ~x86"
 
 IUSE=""
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"
