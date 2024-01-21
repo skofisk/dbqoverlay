@@ -11,7 +11,7 @@ SRC_URI="https://github.com/slusarz/${PN}/archive/v${PV}.tar.gz -> dovecot-fts-f
 
 LICENSE="LGPL-2.1"
 SLOT="0"
-KEYWORDS="amd64"
+KEYWORDS="amd64 arm64"
 
 RDEPEND="<net-mail/dovecot-2.4:0=[stemmer]
 		>dev-libs/xapian-1.4:=
