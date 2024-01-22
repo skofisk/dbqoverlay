@@ -1,0 +1,14 @@
+#!/sbin/openrc-run
+command=/usr/bin/ualpn
+pidfile="/run/${RC_SVCNAME}.pid"
+command_args="--pidfile ${pidfile} --proxy 2 ${ualpn_args}"
+command_args_background="-d -u nobody:nogroup"
+
+name="ualpn"
+description="tls-alpn-01 challenge responder"
+
+depend() {
+        need net
+        use logger
+        before nginx
+}

@@ -1,0 +1,4 @@
+# ualpn config
+# -c = connect
+# -b = bind/listen address
+ualpn_args="-c 127.0.0.1@443"
