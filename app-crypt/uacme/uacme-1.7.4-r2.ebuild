@@ -34,9 +34,9 @@ src_configure() {
 }
 
 src_install() {
-    emake DESTDIR="${D}" install
-    if use ualpn; then
-        newconfd "${FILESDIR}/ualpn.confd" ualpn
-        newinitd "${FILESDIR}/ualpn.initd" ualpn
-    fi
+	emake DESTDIR="${D}" install
+	if use ualpn; then
+		newconfd "${FILESDIR}/ualpn.confd" ualpn
+		newinitd "${FILESDIR}/ualpn.initd" ualpn
+	fi
 }
