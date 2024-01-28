@@ -1,8 +1,8 @@
 #!/sbin/openrc-run
 command=/usr/bin/ualpn
 pidfile="/run/${RC_SVCNAME}.pid"
-command_args="--pidfile ${pidfile} --proxy 2 ${ualpn_args}"
-command_args_background="-d -u nobody:nogroup"
+command_args="--pidfile ${pidfile} ${ualpn_args}"
+command_args_background="-d"
 
 name="ualpn"
 description="tls-alpn-01 challenge responder"

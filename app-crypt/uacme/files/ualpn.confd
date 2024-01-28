@@ -1,4 +1,5 @@
 # ualpn config
 # -c = connect
 # -b = bind/listen address
-ualpn_args="-c 127.0.0.1@443"
+# -P = use PROXY protocol
+ualpn_args="-u nobody:nogroup -P -c 127.0.0.1@443"
