@@ -1,0 +1,30 @@
+--- uacme-upstream-1.7.4/ualpn.c	2023-02-15 21:29:10.000000000 +0100
++++ uacme-upstream-1.7.4/ualpn.c	2024-01-28 20:04:43.765646830 +0100
+@@ -4414,6 +4414,7 @@
+     if (!server_mode) {
+         char *line = NULL;
+         size_t len = 0;
++        int ret_success = 0;
+ 
+         fd = socket(AF_UNIX, SOCK_STREAM, 0);
+         if (fd == -1) {
+@@ -4446,12 +4447,18 @@
+             r = getline(&line, &len, f);
+             if (r == -1)
+                 break;
++            if (strncmp("OK", line, 2) == 0)
++               ret_success = 1;
+             fputs(line, stdout);
+         }
+ 
+         free(line);
+         fclose(f);
+-        cleanup_and_exit(0, EXIT_FAILURE);
++        if (ret_success == 1) {
++            cleanup_and_exit(0, EXIT_SUCCESS);
++        } else {
++            cleanup_and_exit(0, EXIT_FAILURE);
++        }
+     }
+ 
+     if (g.connect == NULL) {

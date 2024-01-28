@@ -25,6 +25,8 @@ RDEPEND="
 DEPEND="${RDEPEND}"
 BDEPEND="man? ( >=app-text/asciidoc-9.0.5-r1 )"
 
+PATCHES="${FILESDIR}/1.7.4-ualpn-return.patch"
+
 src_configure() {
 	econf --runstatedir=/run --with$(use gnutls || use mbedtls && echo out)-openssl \
 		$(use_with gnutls) \
