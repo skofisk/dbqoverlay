@@ -37,8 +37,8 @@ src_install() {
 	newconfd "${FILESDIR}/${PN}.confd" "${PN}"
 	dodir "/etc/${PN}"
 	insinto "/etc/${PN}"
-	newins "build/${PN}.conf" "${PN}.conf"
+	newins "build/${PN}.conf" "${PN}.conf.dist"
 	fowners -R "${PN}:${PN}" "/etc/${PN}"
 	fperms "0770" "/etc/${PN}"
-	fperms "0640" "/etc/${PN}/${PN}.conf"
+	fperms "0640" "/etc/${PN}/${PN}.conf.dist"
 }
