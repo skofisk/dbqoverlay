@@ -1,0 +1,83 @@
+From 7260eaa9f9e649677350d1969f1131e264c9f051 Mon Sep 17 00:00:00 2001
+From: Steinar Seljevold <steinar+github@dbq.no>
+Date: Sun, 4 Feb 2024 00:59:48 +0100
+Subject: [PATCH] table/sql_table: enable mysql
+
+---
+ internal/table/sql_query.go |  1 +
+ internal/table/sql_table.go | 19 ++++++++++++++-----
+ 2 files changed, 15 insertions(+), 5 deletions(-)
+
+diff --git a/internal/table/sql_query.go b/internal/table/sql_query.go
+index c15f710..5dfe19c 100644
+--- a/internal/table/sql_query.go
++++ b/internal/table/sql_query.go
+@@ -27,6 +27,7 @@ import (
+ 	"github.com/foxcpp/maddy/framework/config"
+ 	"github.com/foxcpp/maddy/framework/module"
+ 	_ "github.com/lib/pq"
++	_ "github.com/go-sql-driver/mysql"
+ )
+ 
+ type SQL struct {
+diff --git a/internal/table/sql_table.go b/internal/table/sql_table.go
+index e793dc4..5e08b1b 100644
+--- a/internal/table/sql_table.go
++++ b/internal/table/sql_table.go
+@@ -25,6 +25,7 @@ import (
+ 	"github.com/foxcpp/maddy/framework/config"
+ 	"github.com/foxcpp/maddy/framework/module"
+ 	_ "github.com/lib/pq"
++	_ "github.com/go-sql-driver/mysql"
+ )
+ 
+ type SQLTable struct {
+@@ -82,14 +83,24 @@ func (s *SQLTable) Init(cfg *config.Map) error {
+ 		listQuery   string
+ 		setQuery    string
+ 		delQuery    string
++		initQuery	string
+ 	)
+-	if driver == "sqlite3" {
++	if driver == "mysql" {
++		useNamedArgs = "no"
++		lookupQuery = fmt.Sprintf("SELECT `%s` FROM `%s` WHERE `%s` = ?", valueColumn, tableName, keyColumn)
++		addQuery = fmt.Sprintf("INSERT INTO `%s` (`%s`, `%s`) VALUES(?, ?)", tableName, keyColumn, valueColumn)
++		listQuery = fmt.Sprintf("SELECT %s from %s", keyColumn, tableName)
++		setQuery = fmt.Sprintf("UPDATE `%s` SET `%s` = ? WHERE %s = ?", tableName, valueColumn, keyColumn)
++		delQuery = fmt.Sprintf("DELETE FROM `%s` WHERE `%s` = ?", tableName, keyColumn)
++		initQuery = fmt.Sprintf("CREATE TABLE IF NOT EXISTS `%s` (`%s` VARCHAR(100) NULL, `%s` VARCHAR(100) NOT NULL, PRIMARY KEY (`%s`))", tableName, keyColumn, valueColumn, keyColumn)
++	} else if driver == "sqlite3" {
+ 		useNamedArgs = "yes"
+ 		lookupQuery = fmt.Sprintf("SELECT %s FROM %s WHERE %s = :key", valueColumn, tableName, keyColumn)
+ 		addQuery = fmt.Sprintf("INSERT INTO %s(%s, %s) VALUES(:key, :value)", tableName, keyColumn, valueColumn)
+ 		listQuery = fmt.Sprintf("SELECT %s from %s", keyColumn, tableName)
+ 		setQuery = fmt.Sprintf("UPDATE %s SET %s = :value WHERE %s = :key", tableName, valueColumn, keyColumn)
+ 		delQuery = fmt.Sprintf("DELETE FROM %s WHERE %s = :key", tableName, keyColumn)
++		initQuery = fmt.Sprintf("CREATE TABLE IF NOT EXISTS %s (%s TEXT PRIMARY KEY NOT NULL, %s TEXT NOT NULL)", tableName, keyColumn, valueColumn)
+ 	} else {
+ 		useNamedArgs = "no"
+ 		lookupQuery = fmt.Sprintf("SELECT %s FROM %s WHERE %s = $1", valueColumn, tableName, keyColumn)
+@@ -97,6 +108,7 @@ func (s *SQLTable) Init(cfg *config.Map) error {
+ 		listQuery = fmt.Sprintf("SELECT %s from %s", keyColumn, tableName)
+ 		setQuery = fmt.Sprintf("UPDATE %s SET %s = $2 WHERE %s = $1", tableName, valueColumn, keyColumn)
+ 		delQuery = fmt.Sprintf("DELETE FROM %s WHERE %s = $1", tableName, keyColumn)
++		initQuery = fmt.Sprintf("CREATE TABLE IF NOT EXISTS %s (%s TEXT PRIMARY KEY NOT NULL, %s TEXT NOT NULL)", tableName, keyColumn, valueColumn)
+ 	}
+ 
+ 	return s.wrapped.Init(config.NewMap(cfg.Globals, config.Node{
+@@ -135,10 +147,7 @@ func (s *SQLTable) Init(cfg *config.Map) error {
+ 			},
+ 			{
+ 				Name: "init",
+-				Args: []string{fmt.Sprintf(`CREATE TABLE IF NOT EXISTS %s (
+-					%s TEXT PRIMARY KEY NOT NULL,
+-					%s TEXT NOT NULL
+-				)`, tableName, keyColumn, valueColumn)},
++				Args: []string{initQuery},
+ 			},
+ 		},
+ 	}))
+-- 
+2.43.0
+
