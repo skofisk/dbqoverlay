@@ -17,12 +17,12 @@ KEYWORDS="amd64 ~arm arm64 ~ppc64 x86"
 RESTRICT="mirror"
 IUSE="+doc"
 RDEPEND="acct-group/${PN}
-	acct-user/${PN}"
+         acct-user/${PN}"
 DEPEND="${RDEPEND}
 	doc? ( app-text/scdoc )"
 FILECAPS=( "cap_net_bind_service+ep" "usr/bin/${PN}" )
 #S=${WORKDIR}/${PN}-${MY_COMMIT}
-PATCHES=( "files/0001-table-sql_table-enable-mysql.patch" )
+PATCHES=( "${FILESDIR}/0001-table-sql_table-enable-mysql.patch" )
 
 src_compile() {
 	default
