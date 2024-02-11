@@ -1,0 +1,43 @@
+From 001f797f805901a1a85334b34da903432a007c51 Mon Sep 17 00:00:00 2001
+From: ksyx <18738953+ksyx@users.noreply.github.com>
+Date: Mon, 8 Jan 2024 18:31:52 -0500
+Subject: [PATCH] fix: crash when running ELF w/ interpreter missing
+
+The function `stat` as defined in `include/x86_64-linux-gnu/sys/stat.h`
+marks its arguments as nonnull as in below. This UB causes crash in
+release builds with variable `interpreter` assumed to be nonnull. Along
+with failing stat returning nonzero value, this ultimately causes
+`strlen` to be called with NULL as argument.
+
+Definition of `stat`:
+```
+extern int stat (const char *__restrict __file,
+		 struct stat *__restrict __buf) __THROW __nonnull ((1, 2));
+```
+Reproduce:
+```
+> # interp.c is any vaild single file C source
+> gcc ./interp.c -Wl,--dynamic-linker=/bad -o interp
+> echo './interp' > in.txt
+> ./fish < in.txt
+'./fish < in.txt' terminated by signal SIGSEGV (Address boundary error)
+```
+
+Co-authored-by: Moody Liu <mooodyhunter@outlook.com>
+---
+ src/postfork.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/postfork.cpp b/src/postfork.cpp
+index a2884eb3370a..c56b9e61003b 100644
+--- a/src/postfork.cpp
++++ b/src/postfork.cpp
+@@ -463,7 +463,7 @@ void safe_report_exec_error(int err, const char *actual_cmd, const char *const *
+             const char *interpreter =
+                 get_interpreter(actual_cmd, interpreter_buff, sizeof interpreter_buff);
+             struct stat buf;
+-            auto statret = stat(interpreter, &buf);
++            auto statret = !interpreter || stat(interpreter, &buf);
+             if (interpreter && (0 != statret || access(interpreter, X_OK))) {
+                 // Detect Windows line endings and complain specifically about them.
+                 auto len = strlen(interpreter);

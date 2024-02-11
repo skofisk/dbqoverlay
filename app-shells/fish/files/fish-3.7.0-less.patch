@@ -1,0 +1,28 @@
+From 47bb07eda30c124221b8aad67725b222d71938b7 Mon Sep 17 00:00:00 2001
+From: Johannes Altmanninger <aclopte@gmail.com>
+Date: Sun, 17 Dec 2023 09:51:25 +0100
+Subject: [PATCH] __fish_anypager: prefer less over other pagers
+
+This is our traditional behavior; "man" and "git" do the same.
+
+(cherry picked from commit b83f3b0e982c89e2dc2c2fc23b950b84d7ee8d19)
+
+Proposing this for 3.7.1 because I think see this as regression in 3.7.0 -
+a user might have installed bat for syntax highlighting only.
+---
+ share/functions/__fish_anypager.fish | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/share/functions/__fish_anypager.fish b/share/functions/__fish_anypager.fish
+index 3546ca9845d2..83333d5e1c5e 100644
+--- a/share/functions/__fish_anypager.fish
++++ b/share/functions/__fish_anypager.fish
+@@ -17,7 +17,7 @@ function __fish_anypager --description "Print a pager to use"
+     end
+ 
+     # Cheesy hardcoded list of pagers.
+-    for cmd in bat lv most less more
++    for cmd in less bat lv most more
+         if command -q $cmd
+             echo -- $cmd
+             return 0
