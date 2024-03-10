@@ -1,0 +1,15 @@
+#!/sbin/openrc-run
+command=/usr/bin/acmed
+pidfile="/run/${RC_SVCNAME}.pid"
+command_args="${acmed_args}"
+command_args_background="-d --pidfile ${pidfile}"
+command_args_foreground="-f --no-pid-file"
+
+name="ACMEd"
+description="ACME (RFC 8555) client daemon, written in Rust"
+
+depend() {
+        need net
+        use logger
+        before nginx
+}

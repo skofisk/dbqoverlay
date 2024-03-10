@@ -253,6 +253,9 @@ src_install() {
 	doman man/en/acmed.toml.5
 	#doman man/en/tacd.8
 
+	newconfd "${FILESDIR}/acmed.confd" acmed
+	newinitd "${FILESDIR}/acmed.initd" acmed
+
 	insopts -m 644
 	insinto /etc/acmed
 	doins acmed/config/acmed.toml
