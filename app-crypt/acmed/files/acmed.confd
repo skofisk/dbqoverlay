@@ -2,4 +2,4 @@
 # --config <file>
 # --root-cert <file>
 # --log-level [error, warn, info, debug, trace]
-acmed_args=""
+acmed_args="--log-level info"
