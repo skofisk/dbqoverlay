@@ -22,6 +22,7 @@ KEYWORDS="amd64 arm64 x86"
 
 RDEPEND="
 	dev-python/flask[${PYTHON_USEDEP}]
+	dev-python/six[${PYTHON_USEDEP}]
 	>=dev-python/wtforms-1.0.5[${PYTHON_USEDEP}]
 "
 
