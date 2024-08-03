@@ -3,7 +3,7 @@
 
 EAPI=8
 
-PYTHON_COMPAT=( python3_{8..11} )
+PYTHON_COMPAT=( python3_{8..13} )
 
 inherit webapp python-r1
 
@@ -15,9 +15,9 @@ if [[ ${PV} == *9999* ]]; then
 	KEYWORDS="~amd64"
 else
 	EGIT_REPO_URI="https://gitlab.com/runout/veximpy.git"
-	EGIT_COMMIT="a4e40831d8a661a8bc7607c4017a9b86efca75b1"
+	EGIT_COMMIT="47fd9a90283d4dfa45273c0b1dbb5e850773ae7a"
 	inherit git-r3
-	KEYWORDS="~alpha amd64 ~arm ~arm64 ~hppa ~ia64 ~loong ~mips ~ppc ~ppc64 ~riscv ~s390 ~sparc ~x86"
+	KEYWORDS="~alpha amd64 ~arm arm64 ~hppa ~ia64 ~loong ~mips ~ppc ~ppc64 ~riscv ~s390 ~sparc ~x86"
 fi
 
 LICENSE="GPL3"
