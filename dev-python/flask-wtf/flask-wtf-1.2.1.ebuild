@@ -4,12 +4,8 @@
 EAPI=8
 
 PYTHON_COMPAT=( python3_{8..13} )
-DISTUTILS_USE_PEP517=setuptools
+DISTUTILS_USE_PEP517=hatchling
 
-#PYPI_NO_NORMALIZE=1
-PYPI_PN="Flask-WTF"
-
-inherit pypi
 inherit distutils-r1
 
 DESCRIPTION="Simple integration of Flask and WTForms"
@@ -29,8 +25,6 @@ RDEPEND="
 	dev-python/werkzeug[${PYTHON_USEDEP}]
 	>=dev-python/wtforms-1.0.5[${PYTHON_USEDEP}]
 "
-
-S=${WORKDIR}/${PYPI_PN}-${PV}
 
 distutils_enable_sphinx docs dev-python/pallets-sphinx-themes dev-python/sphinxcontrib-log-cabinet dev-python/sphinx-issues
 distutils_enable_tests pytest
