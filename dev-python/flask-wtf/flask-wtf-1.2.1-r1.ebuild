@@ -6,7 +6,7 @@ EAPI=8
 PYTHON_COMPAT=( python3_{8..13} )
 DISTUTILS_USE_PEP517=hatchling
 
-inherit distutils-r1
+inherit distutils-r1 pypi
 
 DESCRIPTION="Simple integration of Flask and WTForms"
 HOMEPAGE="https://pythonhosted.org/Flask-WTF/ https://pypi.org/project/Flask-WTF/"
