@@ -3,9 +3,9 @@
 
 EAPI=8
 
-PYTHON_COMPAT=( python3_{8..12} )
+PYTHON_COMPAT=( python3_{8..13} )
 
-PYPI_NO_NORMALIZE=1
+#PYPI_NO_NORMALIZE=1
 PYPI_PN="Flask-WTF"
 
 inherit pypi
@@ -16,7 +16,7 @@ HOMEPAGE="https://pythonhosted.org/Flask-WTF/ https://pypi.org/project/Flask-WTF
 
 LICENSE="BSD"
 SLOT="0"
-KEYWORDS="amd64 x86"
+KEYWORDS="amd64 x86 arm64"
 RESTRICT="mirror"
 
 RDEPEND="
@@ -31,7 +31,7 @@ RDEPEND="
 
 S=${WORKDIR}/${PYPI_PN}-${PV}
 
-distutils_enable_sphinx docs dev-python/pallets-sphinx-themes dev-python/sphinxcontrib-log_cabinet dev-python/sphinx-issues
+distutils_enable_sphinx docs dev-python/pallets-sphinx-themes dev-python/sphinxcontrib-log-cabinet dev-python/sphinx-issues
 distutils_enable_tests pytest
 
 EPYTEST_DESELECT=(
