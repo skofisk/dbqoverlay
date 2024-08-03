@@ -20,9 +20,10 @@ else
 	KEYWORDS="~alpha amd64 ~arm arm64 ~hppa ~ia64 ~loong ~mips ~ppc ~ppc64 ~riscv ~s390 ~sparc ~x86"
 fi
 
-LICENSE="GPL3"
+LICENSE="GPL-3"
 SLOT="0"
 WEBAPP_MANUAL_SLOT="yes"
+REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 
 RDEPEND="
 	www-servers/uwsgi[python]
@@ -37,27 +38,28 @@ RDEPEND="
 	dev-python/validators[${PYTHON_USEDEP}]
 	dev-python/virtualenv[${PYTHON_USEDEP}]
 	dev-python/python-dotenv[${PYTHON_USEDEP}]
-    dev-python/pymysql[${PYTHON_USEDEP}]
-    dev-python/wtforms-components[${PYTHON_USEDEP}]
-    dev-python/intervals[${PYTHON_USEDEP}]
-    dev-python/dnspython[${PYTHON_USEDEP}]
+	dev-python/pymysql[${PYTHON_USEDEP}]
+	dev-python/wtforms-components[${PYTHON_USEDEP}]
+	dev-python/intervals[${PYTHON_USEDEP}]
+	dev-python/dnspython[${PYTHON_USEDEP}]
+	${PYTHON_DEPS}
 "
 
 need_httpd_fastcgi
 
 pkg_setup() {
-    webapp_pkg_setup
+	webapp_pkg_setup
 }
 
 #src_configure() { :; }
 src_install() {
-    webapp_src_preinst
+	webapp_src_preinst
 
-    local x
-    x="${MY_HOSTROOTDIR}/${PN}"
-    mkdir "${D}/${x}"
-    dodir "${x}"
-    cp -R * "${D}/${x}" || die "Install failed!"
+	local x
+	x="${MY_HOSTROOTDIR}/${PN}"
+	mkdir "${D}/${x}"
+	dodir "${x}"
+	cp -R * "${D}/${x}" || die "Install failed!"
 
-    webapp_src_install
+	webapp_src_install
 }
