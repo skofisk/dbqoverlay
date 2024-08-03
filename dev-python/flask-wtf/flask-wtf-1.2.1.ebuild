@@ -4,6 +4,7 @@
 EAPI=8
 
 PYTHON_COMPAT=( python3_{8..13} )
+DISTUTILS_USE_PEP517=setuptools
 
 #PYPI_NO_NORMALIZE=1
 PYPI_PN="Flask-WTF"
