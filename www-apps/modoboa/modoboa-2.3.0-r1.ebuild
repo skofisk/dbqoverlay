@@ -19,7 +19,7 @@ LICENSE="ISC"
 SLOT=0
 KEYWORDS="~amd64 ~arm64 ~x86"
 
-DEPEND="
+RDEPEND="
 	dev-python/aiosmtpd[${PYTHON_USEDEP}]
 	dev-python/asgiref[${PYTHON_USEDEP}]
 	dev-python/bcrypt[${PYTHON_USEDEP}]
@@ -35,6 +35,7 @@ DEPEND="
 	dev-python/django-filter[${PYTHON_USEDEP}]
 	>=dev-python/django-phonenumber-field-8[${PYTHON_USEDEP}]
 	dev-python/django-rename-app[${PYTHON_USEDEP}]
+	dev-python/django-reversion[${PYTHON_USEDEP}]
 	dev-python/django-rq[${PYTHON_USEDEP}]
 	dev-python/django-xforwardedfor-middleware[${PYTHON_USEDEP}]
 	dev-python/djangorestframework[${PYTHON_USEDEP}]
@@ -45,6 +46,7 @@ DEPEND="
 	>=dev-python/fido2-1.0[${PYTHON_USEDEP}]
 	>=dev-python/gevent-24.2.1[${PYTHON_USEDEP}]
 	>=dev-python/lxml-5.2.2[${PYTHON_USEDEP}]
+	>=dev-python/lxml-html-clean-0.2[${PYTHON_USEDEP}]
 	>=dev-python/oath-1.4.4[${PYTHON_USEDEP}]
 	>=dev-python/python-ovh-1.2.0[${PYTHON_USEDEP}]
 	dev-python/pillow[${PYTHON_USEDEP}]
@@ -57,9 +59,12 @@ DEPEND="
 	>=dev-db/redis-7.2
 	dev-python/reportlab[${PYTHON_USEDEP}]
 	dev-python/requests[${PYTHON_USEDEP}]
+	dev-python/requests-oauthlib[${PYTHON_USEDEP}]
 	dev-python/rq[${PYTHON_USEDEP}]
 	>=net-analyzer/rrdtool-1.8[python]
 	>=dev-python/sievelib-1.4.1[${PYTHON_USEDEP}]
 	dev-python/tldextract[${PYTHON_USEDEP}]
 	dev-python/uritemplate[${PYTHON_USEDEP}]
+	dev-python/mysqlclient[${PYTHON_USEDEP}]
+	dev-python/jwcrypto[${PYTHON_USEDEP}]
 	"
