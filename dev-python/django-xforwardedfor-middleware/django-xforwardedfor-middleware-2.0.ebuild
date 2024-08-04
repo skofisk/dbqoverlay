@@ -13,7 +13,7 @@ inherit distutils-r1 pypi
 DESCRIPTION="Use the X-Forwarded-For header to get the real ip of a request."
 HOMEPAGE="https://github.com/allo-/django-xforwardedfor-middleware"
 
-LICENSE="Public-Domain"
+LICENSE="public-domain"
 SLOT="0"
 KEYWORDS="amd64 arm64 x86"
 
