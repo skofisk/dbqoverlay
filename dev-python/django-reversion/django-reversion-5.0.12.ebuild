@@ -13,10 +13,9 @@ inherit distutils-r1 pypi
 DESCRIPTION="django-reversion is an extension to the Django web framework that provides version control for model instances."
 HOMEPAGE="https://github.com/etianen/django-reversion"
 
-LICENSE="BSD-3"
+LICENSE="BSD"
 SLOT="0"
 KEYWORDS="amd64 arm64 x86"
-IUSE=""
 
 DEPEND="
 	>=dev-python/django-4[${PYTHON_USEDEP}]"
