@@ -168,9 +168,12 @@ KEYWORDS="amd64 arm64 x86"
 RDEPEND="
 	>=dev-python/click-8[${PYTHON_USEDEP}]
 	>=dev-python/uvloop-0.18[${PYTHON_USEDEP}]
+	>=dev-python/setproctitle-1.3.3[${PYTHON_USEDEP}]
+	>=dev-python/watchfiles-0.21[${PYTHON_USEDEP}]
 "
 BDEPEND="
 	dev-util/maturin
+	virtual/rust
 "
 
 # Rust does not respect CFLAGS/LDFLAGS
