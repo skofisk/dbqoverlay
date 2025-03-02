@@ -285,7 +285,7 @@ src_configure() {
 }
 
 src_install() {
-    dobin target/release/acmed
+    dobin "$(cargo_target_dir)/acmed"
     doman man/en/acmed.8
     doman man/en/acmed.toml.5
     #doman man/en/tacd.8
