@@ -17,7 +17,7 @@ KEYWORDS="amd64 x86 arm64"
 RESTRICT="mirror"
 
 RDEPEND="
-	dev-python/Babel[${PYTHON_USEDEP}]
+	dev-python/babel[${PYTHON_USEDEP}]
 	dev-python/flask[${PYTHON_USEDEP}]
 	dev-python/flask-babel[${PYTHON_USEDEP}]
 	dev-python/itsdangerous[${PYTHON_USEDEP}]
