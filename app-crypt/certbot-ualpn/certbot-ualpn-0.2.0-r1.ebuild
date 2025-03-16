@@ -23,6 +23,10 @@ else
 	KEYWORDS="~amd64 ~arm ~arm64 ~ppc64 ~riscv"
 fi
 
+PATCHES=(
+	"${FILESDIR}/0001-Update-plugin-interface.patch"
+)
+
 DESCRIPTION="ualpn TLS-ALPN-01 Authenticator plugin for Certbot"
 HOMEPAGE="
 	https://github.com/ndilieto/certbot-ualpn
