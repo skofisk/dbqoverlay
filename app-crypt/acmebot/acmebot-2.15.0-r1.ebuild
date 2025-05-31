@@ -35,8 +35,8 @@ REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 	>=dev-python/cryptography-2.1.4[${PYTHON_USEDEP}]
 	>=dev-python/asn1crypto-0.24.0[${PYTHON_USEDEP}]
 	>=dev-python/pyyaml-3.1[${PYTHON_USEDEP}]
-	>=dev-python/josepy-1.0[${PYTHON_USEDEP}]
-	>=app-crypt/acme-1.18[${PYTHON_USEDEP}]
+	<dev-python/josepy-2[${PYTHON_USEDEP}]
+	>=app-crypt/acme-2[${PYTHON_USEDEP}]
 	"
 RDEPEND="${CDEPEND}"
 BDEPEND="
