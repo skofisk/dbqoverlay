@@ -3,7 +3,7 @@
 
 EAPI=8
 DISTUTILS_USE_PEP517=setuptools
-PYTHON_COMPAT=( python3_{10..12})
+PYTHON_COMPAT=( python3_{12..14})
 export SETUPTOOLS_SCM_PRETEND_VERSION=${PV}
 
 EGIT_REPO_URI="https://github.com/plinss/${PN}.git"
@@ -17,9 +17,9 @@ if [[ $PV != 9999 ]]; then
 	SRC_URI="https://github.com/plinss/${PN}/archive/v${PV}.tar.gz -> ${P}.gh.tar.gz"
 fi
 
-PATCHES=(
-	"${FILESDIR}/0001-2.10.0.patch"
-)
+#PATCHES=(
+#	"${FILESDIR}/0001-2.10.0.patch"
+#)
 
 LICENSE="GPL-3"
 SLOT="0"
@@ -35,9 +35,13 @@ REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 	>=dev-python/cryptography-2.1.4[${PYTHON_USEDEP}]
 	>=dev-python/asn1crypto-0.24.0[${PYTHON_USEDEP}]
 	>=dev-python/pyyaml-3.1[${PYTHON_USEDEP}]
-	app-crypt/acme[${PYTHON_USEDEP}]
+	>=dev-python/josepy-1.0[${PYTHON_USEDEP}]
+	>=app-crypt/acme-1.18[${PYTHON_USEDEP}]
 	"
 RDEPEND="${CDEPEND}"
+BDEPEND="
+	>=dev-python/setuptools-78
+	"
 
 python_install_all() {
 	insinto /etc/logrotate.d
