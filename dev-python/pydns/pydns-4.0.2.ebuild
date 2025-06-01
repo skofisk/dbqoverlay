@@ -4,7 +4,7 @@
 EAPI=8
 PYTHON_COMPAT=(python3_12 python3_13 python3_14)
 
-DISTUTILS_USE_PEP517=setuptools
+DISTUTILS_USE_PEP517=flit
 inherit distutils-r1
 
 MY_PN="${PN/py/py3}"
