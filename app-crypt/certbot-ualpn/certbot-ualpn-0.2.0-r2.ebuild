@@ -20,7 +20,7 @@ else
 	SRC_URI="
 		https://github.com/${OWNER}/${REPO}/archive/${COMMIT}.tar.gz -> ${PN}-${PV}.gh.tar.gz
 	"
-	KEYWORDS="~amd64 ~arm ~arm64 ~ppc64 ~riscv"
+	KEYWORDS="~amd64 ~arm64 ~ppc64 ~riscv"
 fi
 
 PATCHES=(
