@@ -3,7 +3,7 @@
 
 EAPI=8
 
-PYTHON_COMPAT=( python3_{8..11} )
+PYTHON_COMPAT=( python3_{8..14} )
 
 inherit webapp python-r1
 
@@ -12,17 +12,18 @@ HOMEPAGE="https://gitlab.com/runout/veximpy"
 if [[ ${PV} == *9999* ]]; then
 	EGIT_REPO_URI="https://gitlab.com/runoutat/veximpy.git"
 	inherit git-r3
-	KEYWORDS=""
+	KEYWORDS="~amd64 ~arm64"
 else
 	EGIT_REPO_URI="https://gitlab.com/runout/veximpy.git"
-	EGIT_COMMIT="a4e40831d8a661a8bc7607c4017a9b86efca75b1"
+	EGIT_COMMIT="b3baec48825342856aac508b3cac38f6ec3a5b7e"
 	inherit git-r3
 	KEYWORDS="~alpha amd64 ~arm arm64 ~hppa ~ia64 ~loong ~mips ~ppc ~ppc64 ~riscv ~s390 ~sparc ~x86"
 fi
 
-LICENSE="GPL3"
+LICENSE="GPL-3"
 SLOT="0"
 WEBAPP_MANUAL_SLOT="yes"
+REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 
 RDEPEND="
 	www-servers/uwsgi[python]
@@ -31,32 +32,34 @@ RDEPEND="
 	dev-python/flask-migrate[${PYTHON_USEDEP}]
 	dev-python/flask-sqlalchemy[${PYTHON_USEDEP}]
 	dev-python/flask-wtf[${PYTHON_USEDEP}]
-	dev-python/flask-debugtoolbar[${PYTHON_USEDEP}]
+	#dev-python/flask-debugtoolbar[${PYTHON_USEDEP}]
 	dev-python/bootstrap-flask[${PYTHON_USEDEP}]
 	dev-python/passlib[${PYTHON_USEDEP}]
 	dev-python/validators[${PYTHON_USEDEP}]
-	dev-python/virtualenv[${PYTHON_USEDEP}]
+	#dev-python/virtualenv[${PYTHON_USEDEP}]
 	dev-python/python-dotenv[${PYTHON_USEDEP}]
-    dev-python/pymysql[${PYTHON_USEDEP}]
-    dev-python/wtforms-components[${PYTHON_USEDEP}]
-    dev-python/dnspython[${PYTHON_USEDEP}]
+	dev-python/pymysql[${PYTHON_USEDEP}]
+	dev-python/wtforms-components[${PYTHON_USEDEP}]
+	dev-python/intervals[${PYTHON_USEDEP}]
+	dev-python/dnspython[${PYTHON_USEDEP}]
+	${PYTHON_DEPS}
 "
 
 need_httpd_fastcgi
 
 pkg_setup() {
-    webapp_pkg_setup
+	webapp_pkg_setup
 }
 
 #src_configure() { :; }
 src_install() {
-    webapp_src_preinst
+	webapp_src_preinst
 
-    local x
-    x="${MY_HOSTROOTDIR}/${PN}"
-    mkdir "${D}/${x}"
-    dodir "${x}"
-    cp -R * "${D}/${x}" || die "Install failed!"
+	local x
+	x="${MY_HOSTROOTDIR}/${PN}"
+	mkdir "${D}/${x}"
+	dodir "${x}"
+	cp -R * "${D}/${x}" || die "Install failed!"
 
-    webapp_src_install
+	webapp_src_install
 }
