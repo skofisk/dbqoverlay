@@ -32,6 +32,7 @@ RDEPEND="
 	dev-python/flask-wtf[${PYTHON_USEDEP}]
 	dev-python/bootstrap-flask[${PYTHON_USEDEP}]
 	dev-python/passlib[${PYTHON_USEDEP}]
+	dev-python/argon2-cffi[${PYTHON_USEDEP}]
 	dev-python/validators[${PYTHON_USEDEP}]
 	dev-python/python-dotenv[${PYTHON_USEDEP}]
 	dev-python/pymysql[${PYTHON_USEDEP}]
