@@ -73,9 +73,9 @@ DEPEND="
 
 PATCHES="
 	${FILESDIR}/${PN}-2503-unvendor-drm-headers.patch
-	${FILESDIR}/${PN}-2507-thunks-toolchain-paths.patch
 	${FILESDIR}/${PN}-2503-thunkgen-gcc-install-dir.patch
 "
+#	${FILESDIR}/${PN}-2507-thunks-toolchain-paths.patch
 
 IUSE="crossdev-toolchain fexconfig qt6 +thunks"
 
@@ -268,22 +268,22 @@ src_configure() {
 	oldpath="${PATH}"
 	use crossdev-toolchain || PATH="${BROOT}/usr/lib/x86_64-multilib-toolchain/bin:${PATH}"
 
-	local x64_cc="$(find_compiler 'x86_64*-linux-gnu-gcc' || die)"
-	local x86_cc
-	if x86_cc="$(find_compiler 'x86_64*-linux-gnu-gcc' -m32)"; then
-		x86_cc="${x86_cc} -m32"
-	else
-		x86_cc="$(find_compiler 'i?86*-linux-gnu-gcc' || die)"
-	fi
+#	local x64_cc="$(find_compiler 'x86_64*-linux-gnu-gcc' || die)"
+#	local x86_cc
+#	if x86_cc="$(find_compiler 'x86_64*-linux-gnu-gcc' -m32)"; then
+#		x86_cc="${x86_cc} -m32"
+#	else
+#		x86_cc="$(find_compiler 'i?86*-linux-gnu-gcc' || die)"
+#	fi
 
-	sed -i -e "s:__REPLACE_ME_WITH_C_COMPILER__:${x64_cc}:" Data/CMake/toolchain_x86_64.cmake || die
-	sed -i -e "s:__REPLACE_ME_WITH_C_COMPILER__:${x86_cc}:" Data/CMake/toolchain_x86_32.cmake || die
-	sed -i -e "s:__REPLACE_ME_WITH_CXX_COMPILER__:${x64_cc/linux-gnu-gcc/linux-gnu-g++}:" Data/CMake/toolchain_x86_64.cmake || die
-	sed -i -e "s:__REPLACE_ME_WITH_CXX_COMPILER__:${x86_cc/linux-gnu-gcc/linux-gnu-g++}:" Data/CMake/toolchain_x86_32.cmake || die
-
-	export X86_CFLAGS="$(my-test-flags-PROG ${x64_cc/%gcc/cc} c ${CFLAGS} ${LDFLAGS})"
-	export X86_CXXFLAGS="$(my-test-flags-PROG ${x64_cc/%gcc/c++} c++ ${CXXFLAGS} ${LDFLAGS})"
-	export X86_LDFLAGS="$(my-test-flags-PROG ${x64_cc/%gcc/cc} c ${LDFLAGS})"
+#	sed -i -e "s:__REPLACE_ME_WITH_C_COMPILER__:${x64_cc}:" Data/CMake/toolchain_x86_64.cmake || die
+#	sed -i -e "s:__REPLACE_ME_WITH_C_COMPILER__:${x86_cc}:" Data/CMake/toolchain_x86_32.cmake || die
+#	sed -i -e "s:__REPLACE_ME_WITH_CXX_COMPILER__:${x64_cc/linux-gnu-gcc/linux-gnu-g++}:" Data/CMake/toolchain_x86_64.cmake || die
+#	sed -i -e "s:__REPLACE_ME_WITH_CXX_COMPILER__:${x86_cc/linux-gnu-gcc/linux-gnu-g++}:" Data/CMake/toolchain_x86_32.cmake || die
+#
+#	export X86_CFLAGS="$(my-test-flags-PROG ${x64_cc/%gcc/cc} c ${CFLAGS} ${LDFLAGS})"
+#	export X86_CXXFLAGS="$(my-test-flags-PROG ${x64_cc/%gcc/c++} c++ ${CXXFLAGS} ${LDFLAGS})"
+#	export X86_LDFLAGS="$(my-test-flags-PROG ${x64_cc/%gcc/cc} c ${LDFLAGS})"
 
 	my-filter-var X86_CFLAGS '-flto*' -fwhole-program-vtables '-fsanitize=cfi*'
 	my-filter-var X86_CXXFLAGS '-flto*' -fwhole-program-vtables '-fsanitize=cfi*'
