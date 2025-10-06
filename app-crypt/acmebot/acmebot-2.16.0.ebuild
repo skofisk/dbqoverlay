@@ -3,7 +3,7 @@
 
 EAPI=8
 DISTUTILS_USE_PEP517=setuptools
-PYTHON_COMPAT=( python3_{12..14})
+PYTHON_COMPAT=( python3_{10..14})
 export SETUPTOOLS_SCM_PRETEND_VERSION=${PV}
 
 EGIT_REPO_URI="https://github.com/plinss/${PN}.git"
