@@ -1,0 +1,13 @@
+DEFINED_PHASES=install postinst unpack
+DEPEND=acct-group/cockroach acct-user/cockroach
+DESCRIPTION=open source database for building cloud services
+EAPI=7
+HOMEPAGE=https://www.cockroachlabs.com
+INHERIT=toolchain-funcs
+KEYWORDS=~amd64 ~arm64
+LICENSE=Cockroach Apache-2.0
+RDEPEND=acct-group/cockroach acct-user/cockroach
+SLOT=0
+SRC_URI=amd64? ( https://binaries.cockroachdb.com/cockroach-v23.1.14.linux-amd64.tgz ) arm64? ( https://binaries.cockroachdb.com/cockroach-v23.1.14.linux-arm64.tgz )
+_eclasses_=toolchain-funcs	98d9f464d912ae6b7316fb8a3721f5db
+_md5_=943a963d28f77d21e710471b3e1b6b5e

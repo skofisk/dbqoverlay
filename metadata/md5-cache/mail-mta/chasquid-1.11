@@ -1,0 +1,15 @@
+BDEPEND=>=dev-lang/go-1.20:= app-arch/unzip
+DEFINED_PHASES=compile install unpack
+DEPEND=>=dev-lang/go-1.18
+DESCRIPTION=chasquid is an SMTP (email) server with a focus on simplicity, security, and ease of operation.
+EAPI=8
+HOMEPAGE=https://blitiri.com.ar/p/chasquid/
+INHERIT=go-module
+IUSE=tools
+KEYWORDS=amd64 x86
+LICENSE=Apache-2.0
+RDEPEND=net-mail/mailbase virtual/logger
+SLOT=0
+SRC_URI=https://github.com/albertito/chasquid/archive/refs/tags/v1.11.tar.gz -> chasquid-1.11.tar.gz https://files.dbq.no/chasquid-1.11-deps.tar.xz
+_eclasses_=go-module	d96f2a2fd6d8fbad6d94516bf238f885	multiprocessing	1e32df7deee68372153dca65f4a7c21f	toolchain-funcs	98d9f464d912ae6b7316fb8a3721f5db	go-env	0e2babf96e7d0b045fc07ad199eb2399	flag-o-matic	a7afe42e95fb46ce9691605acfb24672
+_md5_=17f6e1be958a7807f9fa8bd45f0cd07f

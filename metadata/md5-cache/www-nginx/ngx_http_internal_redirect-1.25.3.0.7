@@ -1,0 +1,14 @@
+BDEPEND=www-servers/nginx:=[modules(-)]
+DEFINED_PHASES=compile configure install postinst prepare test unpack
+DEPEND=sys-libs/zlib:= www-servers/nginx:=[modules(-)]
+DESCRIPTION=NGINX HTTP Internal Redirect Module
+EAPI=8
+HOMEPAGE=https://github.com/flygoast/ngx_http_internal_redirect
+INHERIT=nginx-module
+KEYWORDS=amd64 ~x86
+LICENSE=MIT
+RDEPEND=sys-libs/zlib:= www-servers/nginx:=[modules(-)]
+SLOT=0
+SRC_URI=https://github.com/flygoast/ngx_http_internal_redirect/archive/refs/heads/master.zip -> ngx_http_internal_redirect-.zip
+_eclasses_=nginx-module	8a5e1888f06f43088f9a2cfa09980df7	edo	a5e294016aa84979fcb2459749eb80b2	flag-o-matic	a7afe42e95fb46ce9691605acfb24672	toolchain-funcs	98d9f464d912ae6b7316fb8a3721f5db
+_md5_=8b91f4a233aae9ab6a1943c772f66051

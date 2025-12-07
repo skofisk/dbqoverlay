@@ -1,0 +1,13 @@
+BDEPEND=>=dev-vcs/git-1.8.2.1[curl] sys-devel/gnuconfig >=app-portage/elt-patches-20250306 || ( >=dev-build/automake-1.18:1.18 >=dev-build/automake-1.17-r1:1.17 ) || ( >=dev-build/autoconf-2.72-r1:2.72 ) >=dev-build/libtool-2.4.7-r3
+DEFINED_PHASES=configure install prepare unpack
+DEPEND=>=net-mail/dovecot-2.2:= >=dev-libs/icu-60 >=dev-libs/xapian-1.4:= >=dev-db/sqlite-3
+DESCRIPTION=Dovecot FTS plugin using xapian
+EAPI=7
+HOMEPAGE=https://github.com/grosjo/fts-xapian
+INHERIT=toolchain-funcs git-r3 autotools
+LICENSE=LGPL-2.1
+PROPERTIES=live
+RDEPEND=>=net-mail/dovecot-2.2:= >=dev-libs/icu-60 >=dev-libs/xapian-1.4:= >=dev-db/sqlite-3
+SLOT=0
+_eclasses_=toolchain-funcs	98d9f464d912ae6b7316fb8a3721f5db	git-r3	875eb471682d3e1f18da124be97dcc81	autotools	955b29ccd82c1df4755e5f37748d2fa6	gnuconfig	ddeb9f8caff1b5f71a09c75b7534df79	libtool	c81bd096be5f4c82f4e8f156ef112402
+_md5_=d19bfbc05e334bd48c78fc0c2ccbc700
