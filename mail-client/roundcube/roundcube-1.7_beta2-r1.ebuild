@@ -74,16 +74,18 @@ src_install() {
 
 	dodoc CHANGELOG.md README.md
 
-	insinto "${MY_INSTALLDIR}"
+	insinto "${MY_HTDOCSDIR}"
 	doins -r public_html/*
 
-	insinto "${MY_HOSTROOTDIR}"
+	MY_DIR="${MY_HOSTROOTDIR}/roundcube_config"
+
+	insinto "${MY_DIR}"
 	doins -r [[:lower:]]* SQL
 
-	webapp_serverowned "${MY_HOSTROOTDIR}"/logs
-	webapp_serverowned "${MY_HOSTROOTDIR}"/temp
+	webapp_serverowned "${MY_DIR}"/logs
+	webapp_serverowned "${MY_DIR}"/temp
 
-	webapp_configfile "${MY_HOSTROOTDIR}"/config/defaults.inc.php
+	webapp_configfile "${MY_DIR}"/config/defaults.inc.php
 	webapp_postupgrade_txt en "${FILESDIR}/POST-UPGRADE_complete.txt"
 
 	webapp_src_install
