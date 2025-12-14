@@ -13,5 +13,5 @@ RDEPEND=acct-group/maddy acct-user/maddy
 RESTRICT=mirror
 SLOT=0
 SRC_URI=https://github.com/foxcpp/maddy/archive/v0.7.1.tar.gz -> maddy-0.7.1.tar.gz https://files.dbq.no/maddy-0.7.1-vendor.tar.xz
-_eclasses_=go-module	d96f2a2fd6d8fbad6d94516bf238f885	multiprocessing	1e32df7deee68372153dca65f4a7c21f	toolchain-funcs	98d9f464d912ae6b7316fb8a3721f5db	go-env	0e2babf96e7d0b045fc07ad199eb2399	flag-o-matic	a7afe42e95fb46ce9691605acfb24672	fcaps	e868eb04ddde039c83f6505a0cd0a4ac	systemd	a964c0cbe818b5729da1dbfcee5be861
+_eclasses_=multiprocessing	1e32df7deee68372153dca65f4a7c21f	toolchain-funcs	98d9f464d912ae6b7316fb8a3721f5db	flag-o-matic	a7afe42e95fb46ce9691605acfb24672	go-env	0e2babf96e7d0b045fc07ad199eb2399	go-module	d96f2a2fd6d8fbad6d94516bf238f885	fcaps	c94316d02a37fb5cbe79b7d41c729119	systemd	a964c0cbe818b5729da1dbfcee5be861
 _md5_=728fe7eceb08c8e5752c1e2eb1b57431

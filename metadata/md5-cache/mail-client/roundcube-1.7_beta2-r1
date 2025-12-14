@@ -12,4 +12,4 @@ REQUIRED_USE=|| ( mysql postgres sqlite )
 SLOT=1.7_beta2-r1
 SRC_URI=https://github.com/roundcube/roundcubemail/releases/download/1.7-beta2/roundcubemail-1.7-beta2-complete.tar.gz
 _eclasses_=webapp	5fa840db95fc7348dfd53b8526ed05f5
-_md5_=b9ba9e921c797543bba4d3db40efdabf
+_md5_=1d251793ebcfe49007817ff47ca35a3f
