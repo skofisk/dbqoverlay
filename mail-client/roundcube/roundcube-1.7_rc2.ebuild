@@ -79,6 +79,7 @@ src_install() {
 
 	MY_DIR="${MY_HOSTROOTDIR}/roundcube_config"
 
+	rm -r public_html
 	insinto "${MY_DIR}"
 	doins -r [[:lower:]]* SQL
 
