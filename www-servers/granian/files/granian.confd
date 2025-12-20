@@ -1,0 +1,52 @@
+# Distributed under the terms of the GNU General Public License v2
+
+# CREATE A COPY AND MODIFY THAT INSTEAD!
+
+# The host to listen on. The default is localhost.
+#
+GRANIAN_HOST=
+
+# The port to listen on. The default is 8000.
+#
+GRANIAN_PORT=
+
+# Unix socket to bind to
+#
+GRANIAN_SOCKET=
+
+# Unix socket permissions (octal)
+#
+GRANIAN_SOCKETOPTS=
+
+# Interface type to use, default RSGI
+#
+GRANIAN_INTERFACE=
+
+# If you want to run your application from a specific directiory specify
+# it here. Leave this blank otherwise.
+#
+GRANIAN_DIR=
+
+# The entry point to your application.
+# ex: instance/run.py:application
+GRANIAN_APP="wsgi.py:application"
+
+# The number of child processes to spawn. The default is 1.
+#
+GRANIAN_WORKERS=
+
+# The number of child processes to spawn. The default is 1.
+#
+GRANIAN_THREADS=
+
+# Path to log config, json format. Disables logging if empty
+#
+GRANIAN_LOG_CONFIG=
+
+# The user/group to run your application as.
+#
+GRANIAN_RUNAS=
+
+# Additional options you might want to pass to granian
+#
+GRANIAN_EXTRA_OPTIONS=""

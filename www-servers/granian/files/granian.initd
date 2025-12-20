@@ -1,0 +1,87 @@
+#!/sbin/openrc-run
+# Copyright 1999-2024 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+
+#supervisor=supervise-daemon
+command_background=true
+command_user="${GRANIAN_RUNAS}"
+command=/usr/bin/granian
+
+PIDPATH=/run
+pidfile="${PIDPATH}/${SVCNAME}.pid"
+
+extra_started_commands="reload"
+
+depend() {
+        need net
+}
+
+readconfig() {
+
+        return ${OPTIONS}
+}
+
+start_pre() {
+        if [ "${SVCNAME}" = "granian" ]; then
+                eerror "You are not supposed to run this script directly."
+                eerror "Create a symlink for the python application you want to run as well as"
+                eerror "a copy of the configuration file and modify it appropriately like so..."
+                eerror
+                eerror "  ln -s granian /etc/init.d/granian.trac"
+                eerror "  cp /etc/conf.d/granian /etc/conf.d/granian.trac"
+                eerror "  nano /etc/conf.d/granian.trac"
+                eerror
+                return 1
+        else
+                local OPTIONS
+                OPTIONS=""
+
+                if [ -n "${GRANIAN_LOG_CONFIG}" ]; then
+                        OPTIONS="${OPTIONS} --log-config ${GRANIAN_LOG_CONFIG}"
+                else
+                        #OPTIONS="${OPTIONS} --no-log"
+                        OPTIONS="${OPTIONS}"
+                fi
+
+                if [ -n "${GRANIAN_EXTRA_OPTIONS}" ]; then
+                        OPTIONS="${OPTIONS} ${GRANIAN_EXTRA_OPTIONS}"
+                fi
+
+                if [ -n "${GRANIAN_HOST}" ]; then
+                        OPTIONS="${OPTIONS} --host ${GRANIAN_HOST}"
+                fi
+
+                if [ -n "${GRANIAN_PORT}" ]; then
+                        OPTIONS="${OPTIONS} --port ${GRANIAN_PORT}"
+                fi
+
+                if [ -n "${GRANIAN_SOCKET}" ]; then
+                        OPTIONS="${OPTIONS} --uds ${GRANIAN_SOCKET}"
+                fi
+
+                if [ -n "${GRANIAN_SOCKETOPTS}" ]; then
+                        OPTIONS="${OPTIONS} --uds-permissions ${GRANIAN_SOCKETOPTS}"
+                fi
+
+                if [ -n "${GRANIAN_WORKERS}" ]; then
+                        OPTIONS="${OPTIONS} --workers ${GRANIAN_WORKERS}"
+                fi
+
+                if [ -n "${GRANIAN_THREADS}" ]; then
+                        OPTIONS="${OPTIONS} --threads ${GRANIAN_THREADS}"
+                fi
+
+                if [ -n "${GRANIAN_INTERFACE}" ]; then
+                        OPTIONS="${OPTIONS} --interface ${GRANIAN_INTERFACE}"
+                fi
+
+                cd "${GRANIAN_DIR}"
+                command_args="${OPTIONS} ${GRANIAN_APP}"
+        fi
+}
+
+reload() {
+        ebegin "Reloading ${SVCNAME}"
+        start-stop-daemon --signal HUP --pidfile "${PIDFILE}"
+        eend $?
+}
