@@ -13,10 +13,10 @@ SRC_URI+=" https://files.dbq.no/${P}-vendor.tar.xz"
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="amd64 ~arm arm64 ~ppc64 x86"
-RESTRICT="mirror"
 IUSE="+doc"
+RESTRICT="mirror"
 RDEPEND="acct-group/${PN}
-         acct-user/${PN}"
+		acct-user/${PN}"
 DEPEND="${RDEPEND}
 	doc? ( app-text/scdoc )"
 FILECAPS=( "cap_net_bind_service+ep" "usr/bin/${PN}" )

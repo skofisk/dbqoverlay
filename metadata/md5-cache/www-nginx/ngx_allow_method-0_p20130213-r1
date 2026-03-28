@@ -1,0 +1,15 @@
+BDEPEND=www-servers/nginx:=[modules(-)]
+DEFINED_PHASES=compile configure install postinst prepare test
+DEPEND=www-servers/nginx:=[modules(-)]
+DESCRIPTION=NGINX HTTP Allow methods module
+EAPI=9
+HOMEPAGE=https://github.com/pschultz/ngx_http_allow_methods_module
+INHERIT=nginx-module
+KEYWORDS=amd64 x86 arm64
+LICENSE=BSD-2
+RDEPEND=www-servers/nginx:=[modules(-)]
+RESTRICT=mirror
+SLOT=0
+SRC_URI=https://github.com/pschultz/ngx_http_allow_methods_module/archive/5c1da6ebaeb5bf3776201c7817963ee3885fd58f.tar.gz -> ngx_http_allow_methods_module-5c1da6ebaeb5bf3776201c7817963ee3885fd58f.tar.gz
+_eclasses_=toolchain-funcs	5195689ff6a73b0e789acfa09d4fbcb9	flag-o-matic	fd3558f73f6503093adee69adf41020d	nginx-module	64567d772601366dd5685b3b76e5d7b5
+_md5_=84f6d2fc2c5beb973cb850d47e117edb
