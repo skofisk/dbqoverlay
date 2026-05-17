@@ -3,10 +3,10 @@
 
 EAPI=8
 
-LLVM_COMPAT=( 19 20 21 )
+LLVM_COMPAT=( 19 20 21 22 )
 LLVM_OPTIONAL=1
 
-inherit flag-o-matic cmake toolchain-funcs llvm-r1 check-reqs
+inherit flag-o-matic cmake toolchain-funcs llvm-r2 check-reqs
 
 DESCRIPTION="A fast usermode x86 and x86-64 emulator for Arm64 Linux"
 HOMEPAGE="https://fex-emu.com"
@@ -34,7 +34,7 @@ S="${WORKDIR}/${PN}-${P}"
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS="-* arm64"
+KEYWORDS="-* ~arm64"
 BDEPEND="
 	llvm-core/clang
 	llvm-core/llvm
@@ -61,6 +61,8 @@ RDEPEND="
 		media-libs/alsa-lib
 		media-libs/libglvnd
 		x11-libs/libxcb
+	)
+	rootfs? (
 		>=app-emulation/fex-rootfs-gentoo-20250904-r1
 	)
 "
@@ -75,7 +77,7 @@ PATCHES="
 	${FILESDIR}/${PN}-2503-thunkgen-gcc-install-dir.patch
 "
 
-IUSE="+fexconfig +qt6 +thunks"
+IUSE="+fexconfig +qt6 +thunks +rootfs"
 
 REQUIRED_USE="
 	fexconfig? ( qt6 )
@@ -92,7 +94,7 @@ pkg_setup() {
 	use thunks || return
 	CHECKREQS_DISK_BUILD=4G
 	check-reqs_pkg_pretend
-	llvm-r1_pkg_setup
+	llvm-r2_pkg_setup
 }
 
 src_unpack() {
