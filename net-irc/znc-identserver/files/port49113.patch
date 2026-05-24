@@ -1,0 +1,15 @@
+diff --git a/win32/extra_modules/identserver.cpp b/win32/extra_modules/identserver.cpp
+index f50bae81..6237f900 100644
+--- a/identserver.cpp
++++ b/identserver.cpp
+@@ -36,7 +36,7 @@ protected:
+ public:
+	MODCONSTRUCTOR(CIdentServerMod)
+	{
+-		m_serverPort = 113;
++		m_serverPort = 49113;
+		m_identServer = NULL;
+		m_listenFailed = false;
+	}
+--
+2.53.0
