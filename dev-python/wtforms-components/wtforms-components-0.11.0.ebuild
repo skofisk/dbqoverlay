@@ -4,7 +4,7 @@
 EAPI=8
 
 DISTUTILS_USE_PEP517=setuptools
-PYTHON_COMPAT=( python3_{8..13} )
+PYTHON_COMPAT=( python3_{12..15} )
 
 MY_PN="WTForms-Components"
 MY_P="${MY_PN}-${PV}"
