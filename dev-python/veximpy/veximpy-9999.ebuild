@@ -24,7 +24,6 @@ WEBAPP_MANUAL_SLOT="yes"
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 
 RDEPEND="
-	www-servers/uwsgi[python]
 	>=dev-python/flask-2.1[${PYTHON_USEDEP}]
 	dev-python/flask-login[${PYTHON_USEDEP}]
 	dev-python/flask-migrate[${PYTHON_USEDEP}]
