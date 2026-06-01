@@ -4,7 +4,7 @@
 EAPI=8
 
 DISTUTILS_USE_PEP517=setuptools
-PYTHON_COMPAT=( python3_{10..13} )
+PYTHON_COMPAT=( python3_{10..15} )
 inherit distutils-r1 pypi
 
 MY_PN="Bootstrap-Flask"
@@ -12,7 +12,7 @@ MY_P="${MY_PN}-${PV}"
 
 DESCRIPTION="Bootstrap-Flask is a collection of Jinja macros for Bootstrap 4 & 5 and Flask"
 HOMEPAGE="https://pypi.org/project/bootstrap-flask/ https://github.com/helloflask/bootstrap-flask"
-SRC_URI="$(pypi_sdist_url --no-normalize "${MY_PN^}" "${PV}")"
+SRC_URI="$(pypi_sdist_url "${MY_PN^}" "${PV}")"
 S="${WORKDIR}/${MY_P}"
 
 LICENSE="BSD"
