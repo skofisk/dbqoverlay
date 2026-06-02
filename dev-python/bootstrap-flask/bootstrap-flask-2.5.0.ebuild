@@ -12,8 +12,8 @@ MY_P="${MY_PN}-${PV}"
 
 DESCRIPTION="Bootstrap-Flask is a collection of Jinja macros for Bootstrap 4 & 5 and Flask"
 HOMEPAGE="https://pypi.org/project/bootstrap-flask/ https://github.com/helloflask/bootstrap-flask"
-SRC_URI="$(pypi_sdist_url "${MY_PN^}" "${PV}")"
-S="${WORKDIR}/${MY_P}"
+#SRC_URI="$(pypi_sdist_url "${MY_PN^}" "${PV}")"
+#S="${WORKDIR}/${MY_P}"
 
 LICENSE="BSD"
 SLOT="0"
