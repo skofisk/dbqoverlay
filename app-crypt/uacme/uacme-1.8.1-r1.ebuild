@@ -44,6 +44,7 @@ src_prepare() {
 src_configure() {
 	local -a myeconfargs=(
 		--with-libcurl
+		--runstatedir=/run
 		$(use_enable doc docs)
 		$(use_with gnutls)
 		$(use_with openssl)
