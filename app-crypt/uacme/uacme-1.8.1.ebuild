@@ -1,41 +1,66 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 2026 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=9
+EAPI=8
+inherit autotools
 
-DESCRIPTION="ACMEv2 client written in plain C with minimal dependencies"
-HOMEPAGE="https://github.com/ndilieto/uacme"
-SRC_URI="https://github.com/ndilieto/uacme/archive/upstream/${PV}.tar.gz -> ${P}.tar.gz"
-S="${WORKDIR}/uacme-upstream-${PV}"
-
-LICENSE="GPL-3"
-SLOT="0"
-
-KEYWORDS="amd64 arm64"
-
-IUSE="gnutls mbedtls +ualpn +man"
-REQUIRED_USE="gnutls? ( !mbedtls )"
-
-RDEPEND="
-	>=net-misc/curl-7.77.0-r1
-	!gnutls? ( !mbedtls? ( >=dev-libs/openssl-1.1.1k ) )
-	gnutls? ( >=net-libs/gnutls-3.7.1 )
-	mbedtls? ( >=net-libs/mbedtls-2.26.0 )
-	ualpn? ( dev-libs/libev )
+DESCRIPTION="A client for the RFC8555 ACMEv2 protocol"
+HOMEPAGE="
+	https://github.com/ndilieto/uacme
+	https://ndilieto.github.io/uacme/uacme.html
+	https://ndilieto.github.io/uacme/ualpn.html
 "
-DEPEND="${RDEPEND}"
-BDEPEND="man? ( >=app-text/asciidoc-9.0.5-r1 )"
+
+SRC_URI="
+	https://github.com/ndilieto/uacme/archive/refs/tags/v${PV}.tar.gz -> ${P}.tar.gz
+"
+
+LICENSE="GPL-3+"
+SLOT="0"
+KEYWORDS="amd64 arm64"
+IUSE="doc gnutls +openssl +ualpn"
+
+DEPEND="
+	net-misc/curl:=
+	openssl? ( dev-libs/openssl:= )
+	gnutls? ( net-libs/gnutls:= )
+"
+RDEPEND="
+	${DEPEND}
+"
+BDEPEND="
+	doc? ( app-text/asciidoc )
+"
+
+REQUIRED_USE="
+	^^ ( gnutls openssl )
+"
+
+src_prepare() {
+	default
+	eautoreconf
+}
 
 src_configure() {
-	econf --runstatedir=/run --with$(use gnutls || use mbedtls && echo out)-openssl \
-		$(use_with gnutls) \
-		$(use_with mbedtls) \
-		$(use_with ualpn) \
-		$(use_enable man docs)
+	local -a myeconfargs=(
+		--with-libcurl
+		$(use_enable doc docs)
+		$(use_with gnutls)
+		$(use_with openssl)
+		$(use_with ualpn)
+	)
+
+	econf "${myeconfargs[@]}"
 }
 
 src_install() {
-	emake DESTDIR="${D}" install
+	default
+
+	if ! use doc; then
+		doman uacme.1
+		use ualpn && doman ualpn.1
+	fi
+
 	if use ualpn; then
 		newconfd "${FILESDIR}/ualpn.confd" ualpn
 		newinitd "${FILESDIR}/ualpn.initd" ualpn
