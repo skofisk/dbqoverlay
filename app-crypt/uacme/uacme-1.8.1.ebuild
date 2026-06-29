@@ -1,17 +1,18 @@
 # Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=9
 
 DESCRIPTION="ACMEv2 client written in plain C with minimal dependencies"
 HOMEPAGE="https://github.com/ndilieto/uacme"
 SRC_URI="https://github.com/ndilieto/uacme/archive/upstream/${PV}.tar.gz -> ${P}.tar.gz"
 S="${WORKDIR}/uacme-upstream-${PV}"
 
+LICENSE="GPL-3"
+SLOT="0"
+
 KEYWORDS="amd64 arm64"
 
-SLOT="0"
-LICENSE="GPL-3"
 IUSE="gnutls mbedtls +ualpn +man"
 REQUIRED_USE="gnutls? ( !mbedtls )"
 
@@ -24,8 +25,6 @@ RDEPEND="
 "
 DEPEND="${RDEPEND}"
 BDEPEND="man? ( >=app-text/asciidoc-9.0.5-r1 )"
-
-PATCHES="${FILESDIR}/1.7.4-ualpn-return.patch"
 
 src_configure() {
 	econf --runstatedir=/run --with$(use gnutls || use mbedtls && echo out)-openssl \
