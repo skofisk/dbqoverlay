@@ -1,0 +1,1 @@
+* * * * * ghagent bash /opt/gigahost/agent.sh > /opt/gigahost/cron.log 2>&1
