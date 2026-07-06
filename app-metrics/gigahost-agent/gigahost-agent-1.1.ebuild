@@ -22,6 +22,7 @@ RDEPEND="
 "
 DEPEND="${RDEPEND}"
 
+S=${WORKDIR}
 RESTRICT="mirror"
 
 install_cron_file() {
@@ -31,7 +32,7 @@ install_cron_file() {
 
 src_install() {
 	insinto /opt/gigahost-agent
-	doins agent.sh
+	doins "${DISTDIR}"/agent.sh
 
 	use cron && install_cron_file
 
