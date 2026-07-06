@@ -26,22 +26,23 @@ S=${WORKDIR}
 RESTRICT="mirror"
 
 install_cron_file() {
-	exeinto /etc/cron.d
-	newexe "${FILESDIR}"/"{PN}".cron "${PN}"
+	insinto /etc/cron.d
+	newins "${FILESDIR}"/"${PN}".cron "${PN}"
+	fperms 644 /etc/cron.d/"${PN}"
 }
 
 src_install() {
-	exeinto "/opt/gigahost-agent"
+	exeinto "/opt/gigahost"
 	doexe "${DISTDIR}"/agent.sh
 
-	insinto "/opt/gigahost-agent"
+	insinto "/opt/gigahost"
 	doins "${FILESDIR}"/gateway
 
 	use cron && install_cron_file
 
-	touch "${ED}/opt/gigahost-agent/serverkey"
-	fowners -R ghagent:ghagent /opt/gigahost-agent
-	fperms 640 "/opt/gigahost-agent/serverkey"
+	touch "${ED}/opt/gigahost/serverkey"
+	fowners -R ghagent:ghagent /opt/gigahost
+	fperms 640 "/opt/gigahost/serverkey"
 
 	ewarn "Manual steps:"
 	ewarn 'echo $SERVERKEY > /opt/gigahost/serverkey'
