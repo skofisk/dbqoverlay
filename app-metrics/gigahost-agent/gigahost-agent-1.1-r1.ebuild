@@ -3,7 +3,7 @@
 
 EAPI=7
 
-DESCRIPTION="Gigahost.no monitoring script"
+DESCRIPTION="Gigahost.no status reporting script"
 HOMEPAGE="https://www.gigahost.no"
 SRC_URI="https://flux.gigahost.no/static/agent.sh"
 
@@ -31,13 +31,18 @@ install_cron_file() {
 }
 
 src_install() {
-	insinto /opt/gigahost-agent
-	doins "${DISTDIR}"/agent.sh
+	exeinto "/opt/gigahost-agent"
+	doexe "${DISTDIR}"/agent.sh
+
+	insinto "/opt/gigahost-agent"
+	doins "${FILESDIR}"/gateway
 
 	use cron && install_cron_file
 
-	echo "https://api.gigahost.no/v0/monitor" > /opt/gigahost/gateway
+	touch "${ED}/opt/gigahost-agent/serverkey"
+	fowners -R ghagent:ghagent /opt/gigahost-agent
+	fperms 640 "/opt/gigahost-agent/serverkey"
 
-	elog "Manual steps:"
-	elog 'echo $SERVERKEY > /opt/gigahost/serverkey'
+	ewarn "Manual steps:"
+	ewarn 'echo $SERVERKEY > /opt/gigahost/serverkey'
 }
