@@ -3,7 +3,7 @@
 
 EAPI=8
 
-PYTHON_COMPAT=( python3_{8..14} )
+PYTHON_COMPAT=( python3_{12..15} )
 
 inherit webapp python-r1 git-r3
 
@@ -30,7 +30,7 @@ RDEPEND="
 	dev-python/flask-sqlalchemy[${PYTHON_USEDEP}]
 	dev-python/flask-wtf[${PYTHON_USEDEP}]
 	dev-python/bootstrap-flask[${PYTHON_USEDEP}]
-	dev-python/passlib[${PYTHON_USEDEP}]
+	dev-python/libpass[${PYTHON_USEDEP}]
 	dev-python/argon2-cffi[${PYTHON_USEDEP}]
 	dev-python/validators[${PYTHON_USEDEP}]
 	dev-python/python-dotenv[${PYTHON_USEDEP}]
