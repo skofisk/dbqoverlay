@@ -19,6 +19,12 @@ SRC_URI="
 	${CARGO_CRATE_URIS}
 "
 
+if [[ ${PKGBUMPING} != ${PVR} ]]; then
+	SRC_URI+="
+		https://files.dbq.no/ttl-${PV}-crates.tar.xz
+	"
+fi
+
 LICENSE="|| ( Apache-2.0 MIT )"
 # Dependent crate licenses
 LICENSE+="
