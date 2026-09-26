@@ -9,7 +9,8 @@ DESCRIPTION="Composable all-in-one mail server"
 HOMEPAGE="https://maddy.email"
 
 SRC_URI="https://github.com/foxcpp/maddy/archive/v${PV}.tar.gz -> ${P}.tar.gz"
-SRC_URI+=" https://files.dbq.no/${P}-vendor.tar.xz"
+SRC_URI+=" https://files.dbq.no/${P}-deps.tar.xz"
+SRC_URI+=" https://files.dbq.no/${P}-gomod.tar.xz"
 SRC_URI+=" https://files.dbq.no/${P}-monolith.patch.xz"
 LICENSE="GPL-3"
 SLOT="0"
@@ -28,10 +29,14 @@ PATCHES=(
 src_prepare() {
 	default
 #	eapply -p0 "${WORKDIR}"
+	# Outdated packages
+	rm "${WORKDIR}/${P}/internal/libdns/gandi.go"
+	rm "${WORKDIR}/${P}/internal/libdns/vultr.go"
 }
 
 src_compile() {
 	default
+	#ego build -trimpath -ldflags="-X \"github.com/foxcpp/maddy.Version=${PV}\"" -o "${builddir}/maddy" ./cmd/maddy
 	"./build.sh" "build" || die
 }
 
